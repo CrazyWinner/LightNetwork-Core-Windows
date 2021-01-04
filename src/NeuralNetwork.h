@@ -11,7 +11,7 @@ namespace LightNetwork{
          void reset();
          NeuralNetwork(int i_c);
          ~NeuralNetwork();
-         void addLayer(int p_c, Activation* act);
+         void addLayer(int p_c, Activation* act, const float lr);
          Matrix guess(Matrix& in);
          void train(Matrix& in, Matrix& desired_result);
       

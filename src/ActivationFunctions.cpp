@@ -1,6 +1,6 @@
 #include "ActivationFunctions.h"
-
 using namespace LightNetwork;
+
 void RELU::activate(Matrix &m)
 {
   m.doOperation([](float &in) {

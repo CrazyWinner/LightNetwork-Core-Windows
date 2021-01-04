@@ -3,7 +3,7 @@
 using namespace LightNetwork;
 
 
-Layer::Layer(int i_s, int p_c, Activation *act)
+Layer::Layer(int i_s, int p_c, Activation *act, const float lr)
 {
 
     activator = act;
@@ -15,6 +15,7 @@ Layer::Layer(int i_s, int p_c, Activation *act)
     bias->fill();
     out = new Matrix(p_count, 1);
     outDer = new Matrix(p_count, 1);
+    this->learning_rate = lr;
 }
 
 Layer::~Layer()
@@ -44,10 +45,8 @@ void Layer::back_propagation(Matrix &in, Matrix &inDer, Matrix &err)
     gradient = err;
     gradient *= learning_rate;
 	Matrix delta = gradient * in.transpose();
-   // delta.printDebug();
-   // sleep(10);
     err = weights->transpose() * err;
-    err.hamard(inDer);
+    err.hadamard(inDer);
     *weights -= delta;
     *bias -= gradient;
 }

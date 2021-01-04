@@ -125,13 +125,15 @@ Matrix Matrix::operator*(const Matrix &m)
 
 void Matrix::randomize()
 {
+    
     for (int i = 0; i < this->rows; i++)
     {
         for (int j = 0; j < this->columns; j++)
         {
-         this->data[getIndex(i, j)] = ((double)rand() / (RAND_MAX + 1.0)) - 0.5;
+      //   this->data[getIndex(i, j)] = ((double)rand() / (RAND_MAX + 1.0)) - 0.5;
+        this->data[getIndex(i, j)] = ((double)rand() / (RAND_MAX + 1.0) * 2 - 1);
         
-   }
+        }
     }
 }
 
@@ -141,12 +143,12 @@ void Matrix::fill()
     {
         for (int j = 0; j < this->columns; j++)
         {
-            this->data[getIndex(i, j)] = 0.1;
+            this->data[getIndex(i, j)] = 0.5;
         }
     }
 }
 
-void Matrix::hamard(const Matrix &m)
+void Matrix::hadamard(const Matrix &m)
 {
     if (this->rows != m.rows || this->columns != m.columns)
         throw std::runtime_error("hamard operation error!");
@@ -174,7 +176,7 @@ void Matrix::printDebug()
     std::cout << std::endl;
 }
 
-Matrix Matrix::fromArray(int r, int c, float *arr)
+Matrix Matrix::fromArray(int r, int c, float* arr)
 {
     Matrix m(r, c);
     memcpy(m.data, arr, sizeof(float) * r * c);

@@ -20,7 +20,7 @@ namespace LightNetwork
           void doOperation(void (*op)(float&));
           Matrix operator-(const Matrix &m);
           void operator=(const Matrix &m);
-          void hamard(const Matrix &m);
+          void hadamard(const Matrix &m);
           void operator*=(const float &f);
           void randomize();
           void fill();

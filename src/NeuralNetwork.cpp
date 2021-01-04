@@ -16,15 +16,15 @@ NeuralNetwork::~NeuralNetwork()
   layers.clear();
 }
 
-void NeuralNetwork::addLayer(int p_c, Activation *act)
+void NeuralNetwork::addLayer(int p_c, Activation *act, const float lr)
 {
   if (layers.empty())
   {
-    layers.push_back(new Layer(i_count, p_c, act));
+    layers.push_back(new Layer(i_count, p_c, act, lr));
   }
   else
   {
-    layers.push_back(new Layer(layers.at(layers.size() - 1)->p_count, p_c, act));
+    layers.push_back(new Layer(layers.at(layers.size() - 1)->p_count, p_c, act, lr));
   }
 }
 
