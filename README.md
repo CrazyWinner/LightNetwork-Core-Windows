@@ -5,4 +5,5 @@ With windows core you will able to train but with atmel core you won't.
 - Convolutional layers
 - Multithreading and mini batches
 - CUDA support (maybe?)
+- Exporting network to file
 

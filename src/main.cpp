@@ -13,15 +13,15 @@ int guesses, correctGuesses;
 int main()
 {
 
-
    /*
     Add 2 hidden layers and 1 output layer. 
     You don't need to specify output layer. Last layer will be output layer automatically.
    */
    
    	srand((unsigned)time(NULL));
-	nn.addLayer(4, new LN::SIGMOID(), 0.1);
-	nn.addLayer(4, new LN::SIGMOID(), 0.1);
+	   
+	nn.addLayer(16, new LN::RELU(), 0.1);
+	nn.addLayer(16, new LN::RELU(), 0.1);
 	nn.addLayer(1, new LN::SIGMOID(), 0.1);
 	while (true)
 	{   
@@ -30,8 +30,8 @@ int main()
 
         This example will teach a circle in data. We will pick a random coordinate between (0,0) and (1,1)
 		and calculate it's distance to middle. If it's in circle nn should output 1 otherwise 0.
-
-        */
+       */
+        
         float a = ((double)rand() / (RAND_MAX + 1.0));
 		float b = ((double)rand() / (RAND_MAX + 1.0));
 		

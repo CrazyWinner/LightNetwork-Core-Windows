@@ -132,7 +132,6 @@ void Matrix::randomize()
         {
       //   this->data[getIndex(i, j)] = ((double)rand() / (RAND_MAX + 1.0)) - 0.5;
         this->data[getIndex(i, j)] = ((double)rand() / (RAND_MAX + 1.0) * 2 - 1);
-        
         }
     }
 }
