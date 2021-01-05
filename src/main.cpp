@@ -24,7 +24,7 @@ int main()
 	nn.addLayer(16, new LN::SIGMOID(), 0.1);
 	nn.addLayer(1, new LN::SIGMOID(), 0.1);
     
-	nn = *LN::LightNetworkHelper::importFromFile((std::string)"a");
+	//nn = *LN::LightNetworkHelper::importFromFile((std::string)"a");
 	std::cout << "Size:" << nn.layers.size() << std::endl;
 	Timer t(true, Timer::MILLISECONDS);
 	while (true)
@@ -56,12 +56,12 @@ int main()
 		guesses++;
 		LN::Matrix expectedOutputMatrix = LN::Matrix::fromArray(1, 1, &region);
 
-		//nn.train(inputMatrix, expectedOutputMatrix);
+		nn.train(inputMatrix, expectedOutputMatrix);
 		if (guesses == 10000)
 		{
 			std::cout << "Dogruluk orani %" << correctGuesses / 100 << std::endl;
 			guesses = 0;
-			if ((correctGuesses / 100) > 94 && false)
+			if ((correctGuesses / 100) > 94)
 			{
 				std::cout << "Saved" << std::endl;
 				LN::LightNetworkHelper::exportToFile(&nn, (std::string) "a");
