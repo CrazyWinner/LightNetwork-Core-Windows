@@ -8,8 +8,11 @@ namespace LightNetwork
 {
     class LightNetworkHelper
     {
+    private:
+        static void pushToFile(std::ofstream& file, void* p, size_t size);
     public:
         static void exportToFile(NeuralNetwork *network, std::string fileName);
-        static NeuralNetwork *importFromFile(char *fileName);
+        static NeuralNetwork *importFromFile(std::string fileName);
+        
     };
 } // namespace LightNetwork

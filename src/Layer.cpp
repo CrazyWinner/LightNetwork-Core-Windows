@@ -2,7 +2,7 @@
 
 using namespace LightNetwork;
 
-Layer::Layer(int i_s, int p_c, Activation *act, const float lr)
+Layer::Layer(uint16_t i_s,uint16_t p_c, Activation *act, const float lr)
 {
     activator = act;
     this->i_size = i_s;

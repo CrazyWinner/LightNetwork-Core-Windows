@@ -2,7 +2,7 @@
 #include "NeuralNetwork.h"
 using namespace LightNetwork;
 
-NeuralNetwork::NeuralNetwork(int i_c)
+NeuralNetwork::NeuralNetwork(uint16_t i_c)
 {
   this->i_count = i_c;
 }
@@ -16,7 +16,7 @@ NeuralNetwork::~NeuralNetwork()
   layers.clear();
 }
 
-void NeuralNetwork::addLayer(int p_c, Activation *act, const float lr)
+void NeuralNetwork::addLayer(uint16_t p_c, Activation *act, const float lr)
 {
   if (layers.empty())
   {

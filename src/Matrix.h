@@ -11,13 +11,13 @@ namespace LightNetwork
           bool destroyAfter = true;
         public: 
           float* data;  
-          int rows, columns;
-          Matrix(int r, int c);
-          Matrix(int r, int c, float* arr);
+          uint16_t rows, columns;
+          Matrix(uint16_t r, uint16_t c);
+          Matrix(uint16_t r, uint16_t c, float* arr);
           ~Matrix();      
           void operator+=(const Matrix &m);
           Matrix operator*(const Matrix &m);
-          float at(int i, int j);
+          float at(uint16_t i, uint16_t j);
           Matrix transpose();
           void doOperation(void (*op)(float&));
           Matrix operator-(const Matrix &m);
@@ -28,9 +28,9 @@ namespace LightNetwork
           void fill();
           void operator-=(const Matrix &m);
           void printDebug() const;
-          int getIndex (int r,int c) const;
+          int getIndex (uint16_t r,uint16_t c) const;
           void setTransposed(bool t);
-          static Matrix fromArray(int r, int c, float* arr);  
+          static Matrix fromArray(uint16_t r, uint16_t c, float* arr);  
     };
 
 } // namespace LightNetwork

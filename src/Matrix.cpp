@@ -2,13 +2,13 @@
 
 using namespace LightNetwork;
 
-Matrix::Matrix(int r, int c)
+Matrix::Matrix(uint16_t r, uint16_t c)
 {
     this->rows = r;
     this->columns = c;
     data = new float[rows * columns]();
 }
-Matrix::Matrix(int r, int c, float *arr)
+Matrix::Matrix(uint16_t r, uint16_t c, float *arr)
 {
     data = arr;
     this->rows = r;
@@ -18,12 +18,9 @@ Matrix::Matrix(int r, int c, float *arr)
 
 void Matrix::doOperation(void (*op)(float &))
 {
-    for (int i = 0; i < this->rows; i++)
+    for (uint32_t i = 0; i < this->rows * this->columns; i++)
     {
-        for (int j = 0; j < this->columns; j++)
-        {
-            op(this->data[getIndex(i, j)]);
-        }
+            op(this->data[i]);
     }
 }
 
@@ -36,7 +33,7 @@ void Matrix::operator+=(const Matrix &m)
 {
     if (this->rows != m.rows || this->columns != m.columns)
         throw std::runtime_error("+= operation error!");
-    for (int i = 0; i < this->rows * this->columns; i++)
+    for (uint32_t i = 0; i < this->rows * this->columns; i++)
     {
             this->data[i] = this->data[i] + m.data[i];
     }
@@ -56,7 +53,7 @@ Matrix Matrix::transpose()
 
 void Matrix::operator*=(const float &f)
 {
-    for (int i = 0; i < this->rows * this->columns; i++)
+    for (uint32_t i = 0; i < this->rows * this->columns; i++)
     {
             this->data[i] = this->data[i] * f;
     }
@@ -71,7 +68,7 @@ Matrix Matrix::operator-(const Matrix &m)
     if (this->rows != m.rows || this->columns != m.columns)
         throw std::runtime_error("- operation error!");
     Matrix r(this->rows, this->columns);
-    for (int i = 0; i < this->rows * this->columns; i++)
+    for (uint32_t i = 0; i < this->rows * this->columns; i++)
     {
             r.data[i] = this->data[i] - m.data[i];
     }
@@ -99,11 +96,11 @@ Matrix Matrix::operator*(const Matrix &m)
 		Matrix r(this->rows, m.columns);
      
     
-    for (int i = 0; i < this->rows; i++)
+    for (uint16_t i = 0; i < this->rows; i++)
     {
-        for (int j = 0; j < m.columns; j++)
+        for (uint16_t j = 0; j < m.columns; j++)
         {
-            for (int k = 0; k < this->columns; k++)
+            for (uint16_t k = 0; k < this->columns; k++)
             {
                 r.data[r.getIndex(i, j)] += this->data[getIndex(i, k)] * m.data[m.getIndex(k, j)];
             }
@@ -115,24 +112,17 @@ Matrix Matrix::operator*(const Matrix &m)
 void Matrix::randomize()
 {
     
-    for (int i = 0; i < this->rows; i++)
+    for (uint32_t i = 0; i < this->rows * this->columns; i++)
     {
-        for (int j = 0; j < this->columns; j++)
-        {
-      //   this->data[getIndex(i, j)] = ((double)rand() / (RAND_MAX + 1.0)) - 0.5;
-        this->data[getIndex(i, j)] = ((double)rand() / (RAND_MAX + 1.0) * 2 - 1);
-        }
+        this->data[i] = ((double)rand() / (RAND_MAX + 1.0) * 2 - 1);
     }
 }
 
 void Matrix::fill()
 {
-    for (int i = 0; i < this->rows; i++)
+    for (uint32_t i = 0; i < this->rows * this->columns; i++)
     {
-        for (int j = 0; j < this->columns; j++)
-        {
-            this->data[getIndex(i, j)] = 0.5;
-        }
+        this->data[i] = 0.5;
     }
 }
 
@@ -140,8 +130,7 @@ void Matrix::hadamard(const Matrix &m)
 {
     if (this->rows != m.rows || this->columns != m.columns)
         throw std::runtime_error("hamard operation error!");
-    int b = this->rows * this->columns;
-    for (int i = 0; i < b; i++)
+    for (uint32_t i = 0; i < this->rows * this->columns; i++)
     {
             this->data[i] = this->data[i] * m.data[i];
     }
@@ -151,9 +140,9 @@ void Matrix::hadamard(const Matrix &m)
 void Matrix::printDebug() const
 {
 
-    for (int i = 0; i < this->rows; i++)
+    for (uint16_t i = 0; i < this->rows; i++)
     {
-        for (int j = 0; j < this->columns; j++)
+        for (uint16_t j = 0; j < this->columns; j++)
         {
             std::cout << data[getIndex(i, j)] << " ";
         }
@@ -162,7 +151,7 @@ void Matrix::printDebug() const
     std::cout << std::endl;
 }
 
-Matrix Matrix::fromArray(int r, int c, float* arr)
+Matrix Matrix::fromArray(uint16_t r, uint16_t c, float* arr)
 {
     Matrix m(r, c);
     memcpy(m.data, arr, sizeof(float) * r * c);
@@ -182,12 +171,12 @@ void Matrix::operator-=(const Matrix &m)
     }
 }
 
-float Matrix::at(int i, int j)
+float Matrix::at(uint16_t i, uint16_t j)
 {
     return data[getIndex(i, j)];
 }
 
-int Matrix::getIndex(int r, int c) const
+int Matrix::getIndex(uint16_t r, uint16_t c) const
 {
     if(!isTransposed)return r * columns + c;
     return c * rows + r;
