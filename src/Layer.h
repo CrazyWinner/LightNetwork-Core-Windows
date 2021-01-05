@@ -9,11 +9,11 @@ namespace LightNetwork
     class Layer
     {
     private:
-        float learning_rate;
+        float learning_rate;    
+    public:
         Activation* activator;
         Matrix* weights;
-        Matrix* bias;        
-    public:
+        Matrix* bias;   
         int i_size,p_count;
         Matrix* out;
         Matrix* outDer;

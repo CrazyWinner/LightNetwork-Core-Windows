@@ -1,15 +1,17 @@
 #pragma once
 #include<iostream>
+#include <math.h>
 namespace LightNetwork
 {
     class Matrix
     {
-        private:
-          int rows, columns;
-          float* data;   
+        private: 
+          
           bool isTransposed = false;
           bool destroyAfter = true;
-        public:
+        public: 
+          float* data;  
+          int rows, columns;
           Matrix(int r, int c);
           Matrix(int r, int c, float* arr);
           ~Matrix();      
@@ -25,11 +27,10 @@ namespace LightNetwork
           void randomize();
           void fill();
           void operator-=(const Matrix &m);
-          void printDebug();
+          void printDebug() const;
           int getIndex (int r,int c) const;
           void setTransposed(bool t);
-          static Matrix fromArray(int r, int c, float* arr);   
-    
+          static Matrix fromArray(int r, int c, float* arr);  
     };
 
 } // namespace LightNetwork

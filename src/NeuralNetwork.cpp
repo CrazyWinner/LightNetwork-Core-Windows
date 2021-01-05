@@ -42,6 +42,7 @@ Matrix NeuralNetwork::guess(Matrix &in)
 void NeuralNetwork::train(Matrix &in, Matrix &desired_result)
 {
 
+
   Matrix result = guess(in);
   Matrix err = result - desired_result;
   for (int i = layers.size() - 1; i > 0; i--)
@@ -49,4 +50,5 @@ void NeuralNetwork::train(Matrix &in, Matrix &desired_result)
     layers.at(i)->back_propagation(*layers.at(i - 1)->out, *layers.at(i - 1)->outDer, err);
   }
   layers.at(0)->back_propagation(in, in, err);
+
 }

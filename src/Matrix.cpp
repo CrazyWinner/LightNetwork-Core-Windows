@@ -1,5 +1,5 @@
 #include "Matrix.h"
-#include <math.h>
+
 using namespace LightNetwork;
 
 Matrix::Matrix(int r, int c)
@@ -36,13 +36,9 @@ void Matrix::operator+=(const Matrix &m)
 {
     if (this->rows != m.rows || this->columns != m.columns)
         throw std::runtime_error("+= operation error!");
-    for (int i = 0; i < this->rows; i++)
+    for (int i = 0; i < this->rows * this->columns; i++)
     {
-        for (int j = 0; j < this->columns; j++)
-        {
-            int index = getIndex(i, j);
-            this->data[index] = this->data[index] + m.data[index];
-        }
+            this->data[i] = this->data[i] + m.data[i];
     }
 }
 /*
@@ -60,13 +56,9 @@ Matrix Matrix::transpose()
 
 void Matrix::operator*=(const float &f)
 {
-    for (int i = 0; i < this->rows; i++)
+    for (int i = 0; i < this->rows * this->columns; i++)
     {
-        for (int j = 0; j < this->columns; j++)
-        {
-            int index = getIndex(i, j);
-            this->data[index] = this->data[index] * f;
-        }
+            this->data[i] = this->data[i] * f;
     }
 }
 
@@ -79,13 +71,9 @@ Matrix Matrix::operator-(const Matrix &m)
     if (this->rows != m.rows || this->columns != m.columns)
         throw std::runtime_error("- operation error!");
     Matrix r(this->rows, this->columns);
-    for (int i = 0; i < this->rows; i++)
+    for (int i = 0; i < this->rows * this->columns; i++)
     {
-        for (int j = 0; j < this->columns; j++)
-        {
-            int index = getIndex(i, j);
-            r.data[index] = this->data[index] - m.data[index];
-        }
+            r.data[i] = this->data[i] - m.data[i];
     }
     return r;
 }
@@ -99,6 +87,7 @@ void Matrix::operator=(const Matrix &m)
     }
     this->rows = m.rows;
     this->columns = m.columns;
+    this->isTransposed = m.isTransposed;
     memcpy(this->data, m.data, sizeof(float) * m.rows * m.columns);
 }
 
@@ -151,17 +140,15 @@ void Matrix::hadamard(const Matrix &m)
 {
     if (this->rows != m.rows || this->columns != m.columns)
         throw std::runtime_error("hamard operation error!");
-    for (int i = 0; i < this->rows; i++)
+    int b = this->rows * this->columns;
+    for (int i = 0; i < b; i++)
     {
-        for (int j = 0; j < this->columns; j++)
-        {
-            int index = getIndex(i, j);
-            this->data[index] = this->data[index] * m.data[index];
-        }
+            this->data[i] = this->data[i] * m.data[i];
     }
 }
 
-void Matrix::printDebug()
+
+void Matrix::printDebug() const
 {
 
     for (int i = 0; i < this->rows; i++)
@@ -182,17 +169,16 @@ Matrix Matrix::fromArray(int r, int c, float* arr)
     return m;
 }
 
+
+
+
 void Matrix::operator-=(const Matrix &m)
 {
     if (this->rows != m.rows || this->columns != m.columns)
         throw std::runtime_error("-= operation error!");
-    for (int i = 0; i < this->rows; i++)
+    for (int i = 0; i < this->rows * this->columns; i++)
     {
-        for (int j = 0; j < this->columns; j++)
-        {
-            int index = getIndex(i, j);
-            this->data[index] = this->data[index] - m.data[index];
-        }
+            this->data[i] = this->data[i] - m.data[i];
     }
 }
 
