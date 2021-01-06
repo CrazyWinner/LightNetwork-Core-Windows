@@ -3,7 +3,7 @@ using namespace LightNetwork;
 void LightNetworkHelper::exportToFile(NeuralNetwork *network, std::string fileName)
 {
   std::ofstream saveFile;
-  saveFile.open(fileName + ".lnw", std::ios_base::in | std::ios_base::binary);
+  saveFile.open(fileName + ".lnw", std::ios_base::out | std::ios_base::binary);
   unsigned char layer_count = network->layers.size();
   pushToFile(saveFile, &layer_count, 1);
   for(int i = 0; i < layer_count; i++){
@@ -39,6 +39,8 @@ while(layerCount != 0){
    loadFile.read((char*)l->weights->data, rows * columns * sizeof(float));
    loadFile.read((char*)l->bias->data, rows * sizeof(float));
    network->layers.push_back(l);
+   l->weights->printDebug();
+   l->bias->printDebug();
   layerCount--;
 
 }

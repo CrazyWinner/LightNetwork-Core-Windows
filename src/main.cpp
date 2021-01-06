@@ -10,7 +10,7 @@
 #define LN LightNetwork
 LN::NeuralNetwork nn(2); // Create a neural network with 2 input neurons, input neurons will be created automatically
 uint16_t guesses, correctGuesses;
-
+bool isTraining = false;
 int main()
 {
 
@@ -20,11 +20,11 @@ int main()
    */
     
 	srand((unsigned)time(NULL));
-	nn.addLayer(16, new LN::SIGMOID(), 0.1);
-	nn.addLayer(16, new LN::SIGMOID(), 0.1);
-	nn.addLayer(1, new LN::SIGMOID(), 0.1);
-    
-	//nn = *LN::LightNetworkHelper::importFromFile((std::string)"a");
+	nn.addLayer(16, new LN::SIGMOID(), 0.01);
+	nn.addLayer(4, new LN::SIGMOID(), 0.01);
+	nn.addLayer(1, new LN::SIGMOID(), 0.01);
+    if(!isTraining)
+	nn = *LN::LightNetworkHelper::importFromFile((std::string)"a");
 	std::cout << "Size:" << nn.layers.size() << std::endl;
 	Timer t(true, Timer::MILLISECONDS);
 	while (true)
@@ -44,8 +44,10 @@ int main()
 		float input[] = {a, b};
 
 		LN::Matrix inputMatrix = LN::Matrix::fromArray(2, 1, input);
-
+		
+		Timer t1(true, Timer::MICROSECONDS);
 		float guessed = nn.guess(inputMatrix).at(0, 0);
+		t1.printElapsed("GUESS");
 		guessed = guessed < 0.5 ? 0 : 1;
 		float region = (toMiddle < 0.25) ? 0 : 1;
 
@@ -55,13 +57,14 @@ int main()
 		}
 		guesses++;
 		LN::Matrix expectedOutputMatrix = LN::Matrix::fromArray(1, 1, &region);
-
+        
+		if(isTraining)
 		nn.train(inputMatrix, expectedOutputMatrix);
 		if (guesses == 10000)
 		{
 			std::cout << "Dogruluk orani %" << correctGuesses / 100 << std::endl;
 			guesses = 0;
-			if ((correctGuesses / 100) > 94)
+			if ((correctGuesses / 100) > 94 && isTraining)
 			{
 				std::cout << "Saved" << std::endl;
 				LN::LightNetworkHelper::exportToFile(&nn, (std::string) "a");
