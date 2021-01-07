@@ -1,6 +1,6 @@
-#include "LightNetworkHelper.h"
-using namespace LightNetwork;
-void LightNetworkHelper::exportToFile(NeuralNetwork *network, std::string fileName)
+#include "Minerva.h"
+
+void Minerva::exportToFile(NeuralNetwork *network, std::string fileName)
 {
   std::ofstream saveFile;
   saveFile.open(fileName + ".lnw", std::ios_base::out | std::ios_base::binary);
@@ -21,7 +21,7 @@ void LightNetworkHelper::exportToFile(NeuralNetwork *network, std::string fileNa
   saveFile.close();
 }
 
-NeuralNetwork* LightNetworkHelper::importFromFile(std::string fileName){
+NeuralNetwork* Minerva::importFromFile(std::string fileName){
 NeuralNetwork* network = new NeuralNetwork(1);
 std::ifstream loadFile(fileName + ".lnw", std::ios_base::in | std::ios_base::binary);
 //loadFile.seekg(0, std::ios::beg);
@@ -47,6 +47,6 @@ while(layerCount != 0){
 return network;
 }
 
-void LightNetworkHelper::pushToFile(std::ofstream& file, void* p, size_t size){
+void Minerva::pushToFile(std::ofstream& file, void* p, size_t size){
   file.write((char*)p,size);
 }

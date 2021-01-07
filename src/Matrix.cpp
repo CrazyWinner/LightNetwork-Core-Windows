@@ -1,6 +1,6 @@
 #include "Matrix.h"
 
-using namespace LightNetwork;
+using namespace MNC;
 
 Matrix::Matrix(uint16_t r, uint16_t c)
 {
@@ -20,14 +20,14 @@ void Matrix::doOperation(void (*op)(float &))
 {
     for (uint32_t i = 0; i < this->rows * this->columns; i++)
     {
-            op(this->data[i]);
+        op(this->data[i]);
     }
 }
 
 Matrix::~Matrix()
 {
-    if(destroyAfter)
-    delete[] data;
+    if (destroyAfter)
+        delete[] data;
 }
 void Matrix::operator+=(const Matrix &m)
 {
@@ -35,7 +35,7 @@ void Matrix::operator+=(const Matrix &m)
         throw std::runtime_error("+= operation error!");
     for (uint32_t i = 0; i < this->rows * this->columns; i++)
     {
-            this->data[i] = this->data[i] + m.data[i];
+        this->data[i] = this->data[i] + m.data[i];
     }
 }
 /*
@@ -44,22 +44,22 @@ DO NOT DELETE POINTER
 */
 Matrix Matrix::transpose()
 {
-    
+
     Matrix ret(this->columns, this->rows, this->data);
     ret.setTransposed(!this->isTransposed);
     return ret;
-    
 }
 
 void Matrix::operator*=(const float &f)
 {
     for (uint32_t i = 0; i < this->rows * this->columns; i++)
     {
-            this->data[i] = this->data[i] * f;
+        this->data[i] = this->data[i] * f;
     }
 }
 
-void Matrix::setTransposed(bool t){
+void Matrix::setTransposed(bool t)
+{
     this->isTransposed = t;
 }
 
@@ -70,7 +70,7 @@ Matrix Matrix::operator-(const Matrix &m)
     Matrix r(this->rows, this->columns);
     for (uint32_t i = 0; i < this->rows * this->columns; i++)
     {
-            r.data[i] = this->data[i] - m.data[i];
+        r.data[i] = this->data[i] - m.data[i];
     }
     return r;
 }
@@ -92,10 +92,9 @@ Matrix Matrix::operator*(const Matrix &m)
 {
     if (this->columns != m.rows)
         throw std::runtime_error("* operation error!");
-        
-		Matrix r(this->rows, m.columns);
-     
-    
+
+    Matrix r(this->rows, m.columns);
+
     for (uint16_t i = 0; i < this->rows; i++)
     {
         for (uint16_t j = 0; j < m.columns; j++)
@@ -111,7 +110,7 @@ Matrix Matrix::operator*(const Matrix &m)
 
 void Matrix::randomize()
 {
-    
+
     for (uint32_t i = 0; i < this->rows * this->columns; i++)
     {
         this->data[i] = ((double)rand() / (RAND_MAX + 1.0) * 2 - 1);
@@ -132,10 +131,9 @@ void Matrix::hadamard(const Matrix &m)
         throw std::runtime_error("hamard operation error!");
     for (uint32_t i = 0; i < this->rows * this->columns; i++)
     {
-            this->data[i] = this->data[i] * m.data[i];
+        this->data[i] = this->data[i] * m.data[i];
     }
 }
-
 
 void Matrix::printDebug() const
 {
@@ -151,15 +149,12 @@ void Matrix::printDebug() const
     std::cout << std::endl;
 }
 
-Matrix Matrix::fromArray(uint16_t r, uint16_t c, float* arr)
+Matrix Matrix::fromArray(uint16_t r, uint16_t c, float *arr)
 {
     Matrix m(r, c);
     memcpy(m.data, arr, sizeof(float) * r * c);
     return m;
 }
-
-
-
 
 void Matrix::operator-=(const Matrix &m)
 {
@@ -167,7 +162,7 @@ void Matrix::operator-=(const Matrix &m)
         throw std::runtime_error("-= operation error!");
     for (int i = 0; i < this->rows * this->columns; i++)
     {
-            this->data[i] = this->data[i] - m.data[i];
+        this->data[i] = this->data[i] - m.data[i];
     }
 }
 
@@ -178,6 +173,7 @@ float Matrix::at(uint16_t i, uint16_t j)
 
 int Matrix::getIndex(uint16_t r, uint16_t c) const
 {
-    if(!isTransposed)return r * columns + c;
+    if (!isTransposed)
+        return r * columns + c;
     return c * rows + r;
 }

@@ -1,36 +1,36 @@
 #pragma once
-#include<iostream>
+#include <iostream>
 #include <math.h>
-namespace LightNetwork
+namespace MNC
 {
-    class Matrix
-    {
-        private: 
-          
-          bool isTransposed = false;
-          bool destroyAfter = true;
-        public: 
-          float* data;  
-          uint16_t rows, columns;
-          Matrix(uint16_t r, uint16_t c);
-          Matrix(uint16_t r, uint16_t c, float* arr);
-          ~Matrix();      
-          void operator+=(const Matrix &m);
-          Matrix operator*(const Matrix &m);
-          float at(uint16_t i, uint16_t j);
-          Matrix transpose();
-          void doOperation(void (*op)(float&));
-          Matrix operator-(const Matrix &m);
-          void operator=(const Matrix &m);
-          void hadamard(const Matrix &m);
-          void operator*=(const float &f);
-          void randomize();
-          void fill();
-          void operator-=(const Matrix &m);
-          void printDebug() const;
-          int getIndex (uint16_t r,uint16_t c) const;
-          void setTransposed(bool t);
-          static Matrix fromArray(uint16_t r, uint16_t c, float* arr);  
-    };
+  class Matrix
+  {
+  private:
+    bool isTransposed = false;
+    bool destroyAfter = true;
 
-} // namespace LightNetwork
+  public:
+    float *data;
+    uint16_t rows, columns;
+    Matrix(uint16_t r, uint16_t c);
+    Matrix(uint16_t r, uint16_t c, float *arr);
+    ~Matrix();
+    void operator+=(const Matrix &m);
+    Matrix operator*(const Matrix &m);
+    float at(uint16_t i, uint16_t j);
+    Matrix transpose();
+    void doOperation(void (*op)(float &));
+    Matrix operator-(const Matrix &m);
+    void operator=(const Matrix &m);
+    void hadamard(const Matrix &m);
+    void operator*=(const float &f);
+    void randomize();
+    void fill();
+    void operator-=(const Matrix &m);
+    void printDebug() const;
+    int getIndex(uint16_t r, uint16_t c) const;
+    void setTransposed(bool t);
+    static Matrix fromArray(uint16_t r, uint16_t c, float *arr);
+  };
+
+} // namespace MNC

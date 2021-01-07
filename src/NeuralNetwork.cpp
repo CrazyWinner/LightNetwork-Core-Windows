@@ -1,6 +1,5 @@
 
 #include "NeuralNetwork.h"
-using namespace LightNetwork;
 
 NeuralNetwork::NeuralNetwork(uint16_t i_c)
 {
@@ -28,10 +27,9 @@ void NeuralNetwork::addLayer(uint16_t p_c, Activation *act, const float lr)
   }
 }
 
-
-Matrix NeuralNetwork::guess(Matrix &in)
+MNC::Matrix NeuralNetwork::guess(MNC::Matrix &in)
 {
-  Matrix r = layers.at(0)->feed_forward(in);
+  MNC::Matrix r = layers.at(0)->feed_forward(in);
   for (int i = 1; i < layers.size(); i++)
   {
     r = layers.at(i)->feed_forward(r);
@@ -39,16 +37,14 @@ Matrix NeuralNetwork::guess(Matrix &in)
   return r;
 }
 
-void NeuralNetwork::train(Matrix &in, Matrix &desired_result)
+void NeuralNetwork::train(MNC::Matrix &in, MNC::Matrix &desired_result)
 {
 
-
-  Matrix result = guess(in);
-  Matrix err = result - desired_result;
+  MNC::Matrix result = guess(in);
+  MNC::Matrix err = result - desired_result;
   for (int i = layers.size() - 1; i > 0; i--)
   {
     layers.at(i)->back_propagation(*layers.at(i - 1)->out, *layers.at(i - 1)->outDer, err);
   }
   layers.at(0)->back_propagation(in, in, err);
-
 }

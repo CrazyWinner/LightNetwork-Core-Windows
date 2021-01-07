@@ -1,14 +1,13 @@
 #include "ActivationFunctions.h"
-using namespace LightNetwork;
 
-void RELU::activate(Matrix &m)
+void RELU::activate(MNC::Matrix &m)
 {
   m.doOperation([](float &in) {
     in = std::max((float)0, in);
   });
 }
 
-void RELU::derivative(Matrix &m)
+void RELU::derivative(MNC::Matrix &m)
 {
   m.doOperation([](float &in) {
     in = in > 0 ? (float)1 : 0;
@@ -20,13 +19,13 @@ RELU::~RELU()
   std::cout << "RELU DESTROYED" << std::endl;
 }
 
-void SIGMOID::activate(Matrix &m)
+void SIGMOID::activate(MNC::Matrix &m)
 {
   m.doOperation([](float &in) {
     in = 1 / (1 + std::exp(-in));
   });
 }
-void SIGMOID::derivative(Matrix &m)
+void SIGMOID::derivative(MNC::Matrix &m)
 {
   m.doOperation([](float &in) {
     float sigmoid = 1 / (1 + std::exp(-in));
@@ -39,13 +38,13 @@ SIGMOID::~SIGMOID()
   std::cout << "SIGMOID DESTROYED" << std::endl;
 }
 
-void LEAKY_RELU::activate(Matrix &m)
+void LEAKY_RELU::activate(MNC::Matrix &m)
 {
   m.doOperation([](float &in) {
     in = std::max(0.01f * in, in);
   });
 }
-void LEAKY_RELU::derivative(Matrix &m)
+void LEAKY_RELU::derivative(MNC::Matrix &m)
 {
   m.doOperation([](float &in) {
     in = in > 0 ? 1 : 0.01f;

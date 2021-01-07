@@ -1,6 +1,6 @@
-# LightNetwork
+# Minerva
 A lightweight neural network designed to run on microprocessors.
-With windows core you will able to train but with atmel core you won't.
+With windows core you will able to train and export your models.
 # TODO:
 - Convolutional layers
 - Multithreading and mini batches

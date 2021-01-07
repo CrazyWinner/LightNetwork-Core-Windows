@@ -3,14 +3,14 @@
 #include "math.h"
 #include <time.h>
 #include <chrono>
-#include "LightNetworkHelper.h"
+#include "Minerva.h"
 #include <string>
 #include "HighResClock.h"
 #include <unistd.h>
-#define LN LightNetwork
-LN::NeuralNetwork nn(2); // Create a neural network with 2 input neurons, input neurons will be created automatically
+
+NeuralNetwork nn(196); // Create a neural network with 2 input neurons, input neurons will be created automatically
 uint16_t guesses, correctGuesses;
-bool isTraining = false;
+bool isTraining = true;
 int main()
 {
 
@@ -18,13 +18,13 @@ int main()
     Add 2 hidden layers and 1 output layer. 
     You don't need to specify output layer. Last layer will be output layer automatically.
    */
-    
+
 	srand((unsigned)time(NULL));
-	nn.addLayer(16, new LN::SIGMOID(), 0.01);
-	nn.addLayer(4, new LN::SIGMOID(), 0.01);
-	nn.addLayer(1, new LN::SIGMOID(), 0.01);
-    if(!isTraining)
-	nn = *LN::LightNetworkHelper::importFromFile((std::string)"a");
+	nn.addLayer(16, new SIGMOID(), 0.01);
+	nn.addLayer(16, new SIGMOID(), 0.01);
+	nn.addLayer(10, new SIGMOID(), 0.01);
+	if (!isTraining)
+		nn = *Minerva::importFromFile((std::string) "a");
 	std::cout << "Size:" << nn.layers.size() << std::endl;
 	Timer t(true, Timer::MILLISECONDS);
 	while (true)
@@ -41,13 +41,10 @@ int main()
 
 		float toMiddle = std::sqrt((a - 0.5) * (a - 0.5) + (b - 0.5) * (b - 0.5));
 
-		float input[] = {a, b};
+		float input[196] = {a, b};
 
-		LN::Matrix inputMatrix = LN::Matrix::fromArray(2, 1, input);
-		
-		Timer t1(true, Timer::MICROSECONDS);
+		MNC::Matrix inputMatrix = MNC::Matrix::fromArray(196, 1, input);
 		float guessed = nn.guess(inputMatrix).at(0, 0);
-		t1.printElapsed("GUESS");
 		guessed = guessed < 0.5 ? 0 : 1;
 		float region = (toMiddle < 0.25) ? 0 : 1;
 
@@ -56,10 +53,11 @@ int main()
 			correctGuesses++;
 		}
 		guesses++;
-		LN::Matrix expectedOutputMatrix = LN::Matrix::fromArray(1, 1, &region);
-        
-		if(isTraining)
-		nn.train(inputMatrix, expectedOutputMatrix);
+		float rrrr[10] = {region};
+		MNC::Matrix expectedOutputMatrix = MNC::Matrix::fromArray(10, 1, rrrr);
+
+		if (isTraining)
+			nn.train(inputMatrix, expectedOutputMatrix);
 		if (guesses == 10000)
 		{
 			std::cout << "Dogruluk orani %" << correctGuesses / 100 << std::endl;
@@ -67,7 +65,7 @@ int main()
 			if ((correctGuesses / 100) > 94 && isTraining)
 			{
 				std::cout << "Saved" << std::endl;
-				LN::LightNetworkHelper::exportToFile(&nn, (std::string) "a");
+				Minerva::exportToFile(&nn, (std::string) "a");
 				return 0;
 			}
 			correctGuesses = 0;
