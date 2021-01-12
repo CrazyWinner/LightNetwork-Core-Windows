@@ -75,6 +75,10 @@ Matrix Matrix::operator-(const Matrix &m)
     return r;
 }
 
+void Matrix::set(const uint16_t& r, const uint16_t& c, float a){
+    data[getIndex(r,c)] = a;
+}
+
 void Matrix::operator=(const Matrix &m)
 {
     if (this->rows * this->columns != m.rows * m.columns)

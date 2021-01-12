@@ -1,4 +1,4 @@
-#include "ActivationFunctions.h"
+#include "Activation.h"
 #include "NeuralNetwork.h"
 #include "Matrix.h"
 #include <iostream>

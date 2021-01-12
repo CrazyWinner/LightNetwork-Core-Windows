@@ -1,8 +1,8 @@
 #include "Layer.h"
 
-Layer::Layer(uint16_t i_s, uint16_t p_c, Activation *act, const float lr)
+Layer::Layer(uint16_t i_s, uint16_t p_c, Activation::ActivationType act, const float lr)
 {
-    activator = act;
+    activationType = act;
     this->i_size = i_s;
     this->p_count = p_c;
     weights = new MNC::Matrix(p_count, i_size);
@@ -16,7 +16,6 @@ Layer::Layer(uint16_t i_s, uint16_t p_c, Activation *act, const float lr)
 
 Layer::~Layer()
 {
-    delete activator;
     delete out;
     delete outDer;
     delete weights;
@@ -28,8 +27,8 @@ MNC::Matrix Layer::feed_forward(MNC::Matrix &in)
     MNC::Matrix r = *weights * in;
     r += *bias;
     *outDer = r;
-    activator->derivative(*outDer);
-    activator->activate(r);
+    Activation::derivative(*outDer, activationType);
+    Activation::activate(r,activationType);
     *out = r;
     return r;
 }

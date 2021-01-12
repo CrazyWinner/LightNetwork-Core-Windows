@@ -15,7 +15,7 @@ NeuralNetwork::~NeuralNetwork()
   layers.clear();
 }
 
-void NeuralNetwork::addLayer(uint16_t p_c, Activation *act, const float lr)
+void NeuralNetwork::addLayer(uint16_t p_c, Activation::ActivationType act, const float lr)
 {
   if (layers.empty())
   {

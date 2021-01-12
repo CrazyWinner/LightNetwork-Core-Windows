@@ -7,62 +7,52 @@
 #include <string>
 #include "HighResClock.h"
 #include <unistd.h>
-
+#include "MnistImporter.h"
 NeuralNetwork nn(196); // Create a neural network with 2 input neurons, input neurons will be created automatically
 uint16_t guesses, correctGuesses;
 bool isTraining = true;
-int main()
-{
+int trainIndex = 0;
+/*
+This example will teach 14x14 mnist characters
 
+*/
+int getMaxVal(MNC::Matrix& x);
+int main()
+{ 
+	MnistImporter m((char*)"train-images.idx3-ubyte",(char*)"train-labels.idx1-ubyte");
 	/*
     Add 2 hidden layers and 1 output layer. 
     You don't need to specify output layer. Last layer will be output layer automatically.
    */
 
 	srand((unsigned)time(NULL));
-	nn.addLayer(16, new SIGMOID(), 0.01);
-	nn.addLayer(16, new SIGMOID(), 0.01);
-	nn.addLayer(10, new SIGMOID(), 0.01);
+	nn.addLayer(16, Activation::SIGMOID, 0.05);
+
+	nn.addLayer(16, Activation::SIGMOID, 0.05);
+	nn.addLayer(10, Activation::SIGMOID, 0.05);
 	if (!isTraining)
 		nn = *Minerva::importFromFile((std::string) "a");
 	std::cout << "Size:" << nn.layers.size() << std::endl;
 	Timer t(true, Timer::MILLISECONDS);
 	while (true)
 	{
-
-		/*
-
-        This example will teach a circle in data. We will pick a random coordinate between (0,0) and (1,1)
-		and calculate it's distance to middle. If it's in circle nn should output 1 otherwise 0.
-       */
-
-		float a = ((double)rand() / (RAND_MAX + 1.0));
-		float b = ((double)rand() / (RAND_MAX + 1.0));
-
-		float toMiddle = std::sqrt((a - 0.5) * (a - 0.5) + (b - 0.5) * (b - 0.5));
-
-		float input[196] = {a, b};
-
-		MNC::Matrix inputMatrix = MNC::Matrix::fromArray(196, 1, input);
-		float guessed = nn.guess(inputMatrix).at(0, 0);
-		guessed = guessed < 0.5 ? 0 : 1;
-		float region = (toMiddle < 0.25) ? 0 : 1;
-
-		if (guessed == region)
-		{
+		trainIndex = rand() % 60000;
+		MNC::Matrix in = m.getInAt(trainIndex);
+		MNC::Matrix out = m.getOutAt(trainIndex);
+		MNC::Matrix guessed = nn.guess(in);
+        int desired = getMaxVal(out);
+		int result = getMaxVal(guessed);
+		if(desired == result){
 			correctGuesses++;
 		}
 		guesses++;
-		float rrrr[10] = {region};
-		MNC::Matrix expectedOutputMatrix = MNC::Matrix::fromArray(10, 1, rrrr);
-
 		if (isTraining)
-			nn.train(inputMatrix, expectedOutputMatrix);
-		if (guesses == 10000)
+			nn.train(in, out);
+		if (guesses == 1000)
 		{
-			std::cout << "Dogruluk orani %" << correctGuesses / 100 << std::endl;
+			std::cout << "Dogruluk orani %" << correctGuesses / 10 << std::endl;
 			guesses = 0;
-			if ((correctGuesses / 100) > 94 && isTraining)
+			if ((correctGuesses / 10) > 96 && isTraining)
 			{
 				std::cout << "Saved" << std::endl;
 				Minerva::exportToFile(&nn, (std::string) "a");
@@ -74,4 +64,16 @@ int main()
 	}
 
 	return 0;
+}
+
+int getMaxVal(MNC::Matrix& x){
+    float maxVal = x.at(0,0);
+	float maxId = 0;
+    for(int i = 0; i < x.rows; i++){
+		if(x.at(i,0) > maxVal){
+			maxVal = x.at(i,0);
+			maxId = i;
+		}
+	}
+	return maxId;
 }

@@ -24,7 +24,6 @@ void Minerva::exportToFile(NeuralNetwork *network, std::string fileName)
 NeuralNetwork* Minerva::importFromFile(std::string fileName){
 NeuralNetwork* network = new NeuralNetwork(1);
 std::ifstream loadFile(fileName + ".lnw", std::ios_base::in | std::ios_base::binary);
-//loadFile.seekg(0, std::ios::beg);
 unsigned char layerCount;
 loadFile.read((char*)&layerCount, 1);
 while(layerCount != 0){
@@ -35,7 +34,7 @@ while(layerCount != 0){
    uint16_t rows, columns;
    loadFile.read((char*)&rows, 2);
    loadFile.read((char*)&columns, 2);
-   Layer* l = new Layer(columns, rows, new SIGMOID(), lr);
+   Layer* l = new Layer(columns, rows, Activation::SIGMOID, lr);
    loadFile.read((char*)l->weights->data, rows * columns * sizeof(float));
    loadFile.read((char*)l->bias->data, rows * sizeof(float));
    network->layers.push_back(l);

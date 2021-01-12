@@ -8,7 +8,6 @@ namespace MNC
   private:
     bool isTransposed = false;
     bool destroyAfter = true;
-
   public:
     float *data;
     uint16_t rows, columns;
@@ -31,6 +30,7 @@ namespace MNC
     int getIndex(uint16_t r, uint16_t c) const;
     void setTransposed(bool t);
     static Matrix fromArray(uint16_t r, uint16_t c, float *arr);
+    void set(const uint16_t& r, const uint16_t& c, float a);
   };
 
 } // namespace MNC
