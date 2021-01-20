@@ -8,7 +8,8 @@
 #include "HighResClock.h"
 #include <unistd.h>
 #include "MnistImporter.h"
-NeuralNetwork nn(196); // Create a neural network with 2 input neurons, input neurons will be created automatically
+#include "FullyConnected.h"
+NeuralNetwork nn(1,196,1); 
 uint16_t guesses, correctGuesses;
 bool isTraining = true;
 int trainIndex = 0;
@@ -19,17 +20,16 @@ This example will teach 14x14 mnist characters
 int getMaxVal(MNC::Matrix& x);
 int main()
 { 
-	MnistImporter m((char*)"train-images.idx3-ubyte",(char*)"train-labels.idx1-ubyte");
+	MnistImporter m("train-images.idx3-ubyte","train-labels.idx1-ubyte");
 	/*
     Add 2 hidden layers and 1 output layer. 
-    You don't need to specify output layer. Last layer will be output layer automatically.
+    You don't need to specify output layer. Last layer will be the output layer.
    */
 
 	srand((unsigned)time(NULL));
-	nn.addLayer(16, Activation::SIGMOID, 0.05);
-
-	nn.addLayer(16, Activation::SIGMOID, 0.05);
-	nn.addLayer(10, Activation::SIGMOID, 0.05);
+	nn.addLayer(new FullyConnected(300, Activation::RELU, 0.01));
+    nn.addLayer(new FullyConnected(300, Activation::RELU, 0.01)); 
+    nn.addLayer(new FullyConnected(10, Activation::SIGMOID, 0.01));
 	if (!isTraining)
 		nn = *Minerva::importFromFile((std::string) "a");
 	std::cout << "Size:" << nn.layers.size() << std::endl;
@@ -52,7 +52,7 @@ int main()
 		{
 			std::cout << "Dogruluk orani %" << correctGuesses / 10 << std::endl;
 			guesses = 0;
-			if ((correctGuesses / 10) > 96 && isTraining)
+			if ((correctGuesses / 10) > 96 && isTraining && false)
 			{
 				std::cout << "Saved" << std::endl;
 				Minerva::exportToFile(&nn, (std::string) "a");

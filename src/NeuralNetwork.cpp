@@ -1,9 +1,11 @@
 
 #include "NeuralNetwork.h"
 
-NeuralNetwork::NeuralNetwork(uint16_t i_c)
+NeuralNetwork::NeuralNetwork(uint16_t i_X, uint16_t i_Y, uint16_t i_Z)
 {
-  this->i_count = i_c;
+  inputX = i_X;
+  inputY = i_Y;
+  inputZ = i_Z;
 }
 
 NeuralNetwork::~NeuralNetwork()
@@ -15,17 +17,24 @@ NeuralNetwork::~NeuralNetwork()
   layers.clear();
 }
 
-void NeuralNetwork::addLayer(uint16_t p_c, Activation::ActivationType act, const float lr)
+
+
+void NeuralNetwork::addLayer(Layer* l)
 {
   if (layers.empty())
   {
-    layers.push_back(new Layer(i_count, p_c, act, lr));
+    l->init(inputX, inputY, inputZ);
+    layers.push_back(l);
   }
   else
   {
-    layers.push_back(new Layer(layers.at(layers.size() - 1)->p_count, p_c, act, lr));
+    uint16_t outX, outY, outZ;
+    layers.at(layers.size() - 1)->getOutDimensions(outX, outY, outZ);
+    l->init(outX, outY, outZ);
+    layers.push_back(l);
   }
 }
+
 
 MNC::Matrix NeuralNetwork::guess(MNC::Matrix &in)
 {

@@ -47,8 +47,21 @@ Matrix Matrix::transpose()
 
     Matrix ret(this->columns, this->rows, this->data);
     ret.setTransposed(!this->isTransposed);
+    ret.setInversed(this->isInversed);
     return ret;
 }
+/*
+WARNING: Inversed matrices will use the same pointer
+DO NOT DELETE POINTER
+*/
+Matrix Matrix::inverse()
+{
+    Matrix ret(this->rows, this->columns, this->data);
+    ret.setTransposed(this->isTransposed);
+    ret.setInversed(!this->isInversed);
+    return ret;
+}
+
 
 void Matrix::operator*=(const float &f)
 {
@@ -61,6 +74,11 @@ void Matrix::operator*=(const float &f)
 void Matrix::setTransposed(bool t)
 {
     this->isTransposed = t;
+}
+
+void Matrix::setInversed(bool t)
+{
+    this->isInversed = t;
 }
 
 Matrix Matrix::operator-(const Matrix &m)
@@ -89,6 +107,7 @@ void Matrix::operator=(const Matrix &m)
     this->rows = m.rows;
     this->columns = m.columns;
     this->isTransposed = m.isTransposed;
+    this->isInversed = m.isInversed;
     memcpy(this->data, m.data, sizeof(float) * m.rows * m.columns);
 }
 
@@ -177,6 +196,10 @@ float Matrix::at(uint16_t i, uint16_t j)
 
 int Matrix::getIndex(uint16_t r, uint16_t c) const
 {
+    if(isInversed){
+        r = rows - 1 - r;
+        c = columns - 1 - c;
+    }
     if (!isTransposed)
         return r * columns + c;
     return c * rows + r;

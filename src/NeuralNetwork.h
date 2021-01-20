@@ -6,12 +6,12 @@
 class NeuralNetwork
 {
 public:
-   uint16_t i_count;
+   uint16_t inputX, inputY, inputZ;
    std::vector<Layer *> layers;
    void reset();
-   NeuralNetwork(uint16_t i_c);
+   NeuralNetwork(uint16_t i_X, uint16_t i_Y, uint16_t i_Z);
    ~NeuralNetwork();
-   void addLayer(uint16_t p_c, Activation::ActivationType act, const float lr);
+   void addLayer(Layer* l);
    MNC::Matrix guess(MNC::Matrix &in);
    void train(MNC::Matrix &in, MNC::Matrix &desired_result);
 };

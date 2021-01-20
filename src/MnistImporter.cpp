@@ -1,6 +1,6 @@
 #include "MnistImporter.h"
 #include <string>
-MnistImporter::MnistImporter(char *imagesFile, char *labelsFile)
+MnistImporter::MnistImporter(const char *imagesFile, const char *labelsFile)
 {
 
     imFile = new std::ifstream(imagesFile, std::ios_base::in | std::ios_base::binary);
@@ -63,7 +63,7 @@ MNC::Matrix MnistImporter::getOutAt(uint32_t id)
     return a;
 }
 
-void MnistImporter::readMsbFirst(std::ifstream &file, char *ptr, size_t size)
+void MnistImporter::readMsbFirst(std::ifstream &file,char *ptr, size_t size)
 {
     for (size_t i = size; i > 0; i--)
     {

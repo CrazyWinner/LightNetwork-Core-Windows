@@ -10,7 +10,7 @@ private:
     std::ifstream* laFile;
     uint16_t rows, cols;
 public:
-    MnistImporter(char* imagesFile, char* labelsFile);
+    MnistImporter(const char* imagesFile, const char* labelsFile);
     MNC::Matrix getInAt(uint32_t id);
     MNC::Matrix getOutAt(uint32_t id);
     void readMsbFirst(std::ifstream& file,char* ptr, size_t size);
