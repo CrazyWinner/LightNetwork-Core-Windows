@@ -9,13 +9,13 @@
 #include <unistd.h>
 #include "MnistImporter.h"
 #include "FullyConnected.h"
-NeuralNetwork nn(1,196,1); 
+#include "Conv2D.h"
+NeuralNetwork nn(14,14,1); 
 uint16_t guesses, correctGuesses;
 bool isTraining = true;
 int trainIndex = 0;
 /*
 This example will teach 14x14 mnist characters
-
 */
 int getMaxVal(MNC::Matrix& x);
 int main()
@@ -27,11 +27,17 @@ int main()
    */
 
 	srand((unsigned)time(NULL));
-	nn.addLayer(new FullyConnected(300, Activation::RELU, 0.01));
-    nn.addLayer(new FullyConnected(300, Activation::RELU, 0.01)); 
+	nn.addLayer(new Conv2D(3,10,1,Activation::RELU,0.01)); 
+//	nn.addLayer(new Conv2D(5,20,1,Activation::RELU,0.01)); 
+	nn.addLayer(new FullyConnected(30, Activation::RELU, 0.01));
+    nn.addLayer(new FullyConnected(30, Activation::RELU, 0.01)); 
     nn.addLayer(new FullyConnected(10, Activation::SIGMOID, 0.01));
-	if (!isTraining)
+
+
+	
+	if (!isTraining && false)
 		nn = *Minerva::importFromFile((std::string) "a");
+		
 	std::cout << "Size:" << nn.layers.size() << std::endl;
 	Timer t(true, Timer::MILLISECONDS);
 	while (true)

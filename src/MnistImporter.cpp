@@ -23,7 +23,7 @@ MnistImporter::~MnistImporter()
 MNC::Matrix MnistImporter::getInAt(uint32_t id)
 {
     //std::cout << "Loading image" << id << std::endl;
-    MNC::Matrix a((rows / resDivider) * (cols / resDivider),1);
+    MNC::Matrix a((rows / resDivider) * (cols / resDivider), 1);
     uint8_t read;
     for (uint32_t j = 0; j < rows / resDivider; j++)
     {
@@ -36,12 +36,13 @@ MNC::Matrix MnistImporter::getInAt(uint32_t id)
                 {
                     imFile->seekg(16 + 784 * id + ((j * resDivider + x) * cols) + (k * resDivider + y));
                     imFile->read((char *)&read, 1);
-                    if(imFile->eof())std::cout << "eof" << std::endl;
+                    if (imFile->eof())
+                        std::cout << "eof" << std::endl;
                     b += read;
                 }
             }
             b = b / 1024;
-            a.set(j * (cols / resDivider) + k, 0, b);       
+            a.set(j * (cols / resDivider) + k, 0, b);
         }
     }
 
@@ -63,7 +64,7 @@ MNC::Matrix MnistImporter::getOutAt(uint32_t id)
     return a;
 }
 
-void MnistImporter::readMsbFirst(std::ifstream &file,char *ptr, size_t size)
+void MnistImporter::readMsbFirst(std::ifstream &file, char *ptr, size_t size)
 {
     for (size_t i = size; i > 0; i--)
     {

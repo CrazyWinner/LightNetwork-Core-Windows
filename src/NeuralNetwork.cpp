@@ -17,9 +17,7 @@ NeuralNetwork::~NeuralNetwork()
   layers.clear();
 }
 
-
-
-void NeuralNetwork::addLayer(Layer* l)
+void NeuralNetwork::addLayer(Layer *l)
 {
   if (layers.empty())
   {
@@ -34,7 +32,6 @@ void NeuralNetwork::addLayer(Layer* l)
     layers.push_back(l);
   }
 }
-
 
 MNC::Matrix NeuralNetwork::guess(MNC::Matrix &in)
 {
@@ -53,7 +50,7 @@ void NeuralNetwork::train(MNC::Matrix &in, MNC::Matrix &desired_result)
   MNC::Matrix err = result - desired_result;
   for (int i = layers.size() - 1; i > 0; i--)
   {
-    layers.at(i)->back_propagation(*layers.at(i - 1)->out, *layers.at(i - 1)->outDer, err);
+    err = layers.at(i)->back_propagation(*layers.at(i - 1)->out, *layers.at(i - 1)->outDer, err);
   }
   layers.at(0)->back_propagation(in, in, err);
 }
