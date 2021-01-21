@@ -27,8 +27,8 @@ int main()
    */
 
 	srand((unsigned)time(NULL));
+	nn.addLayer(new Conv2D(5,5,1,Activation::RELU,0.01)); 
 	nn.addLayer(new Conv2D(3,10,1,Activation::RELU,0.01)); 
-//	nn.addLayer(new Conv2D(5,20,1,Activation::RELU,0.01)); 
 	nn.addLayer(new FullyConnected(30, Activation::RELU, 0.01));
     nn.addLayer(new FullyConnected(30, Activation::RELU, 0.01)); 
     nn.addLayer(new FullyConnected(10, Activation::SIGMOID, 0.01));

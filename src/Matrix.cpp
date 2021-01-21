@@ -39,7 +39,7 @@ void Matrix::operator+=(const Matrix &m)
     }
 }
 
-void Matrix::operator+=(const float& m)
+void Matrix::operator+=(const float &m)
 {
     for (uint32_t i = 0; i < this->rows * this->columns; i++)
     {
@@ -145,9 +145,11 @@ void Matrix::operator=(const Matrix &m)
 
 Matrix Matrix::operator*(const Matrix &m)
 {
-    if (this->columns != m.rows){
+    if (this->columns != m.rows)
+    {
         std::cout << "ERR: " << this->rows << ":" << this->columns << " * " << m.rows << ":" << m.columns << std::endl;
-        throw std::runtime_error("* operation error!");}
+        throw std::runtime_error("* operation error!");
+    }
 
     Matrix r(this->rows, m.columns);
 
@@ -162,6 +164,16 @@ Matrix Matrix::operator*(const Matrix &m)
         }
     }
     return r;
+}
+
+float Matrix::sum() const
+{
+    float ret = 0;
+    for (uint32_t i = 0; i < this->rows * this->columns; i++)
+    {
+        ret += this->data[i];
+    }
+    return ret;
 }
 
 void Matrix::randomize()

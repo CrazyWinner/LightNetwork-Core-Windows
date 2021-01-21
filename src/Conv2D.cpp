@@ -51,15 +51,25 @@ MNC::Matrix Conv2D::feed_forward(MNC::Matrix &in)
 
 MNC::Matrix Conv2D::back_propagation(const MNC::Matrix &in, const MNC::Matrix &inDer, const MNC::Matrix &err)
 {
+    MNC::Matrix ret(i_X * i_Y * i_Z, 1);
+    uint16_t outX, outY, outZ;
+    getOutDimensions(outX, outY, outZ);
     MNC::Matrix gradient(err.rows, err.columns);
- /*
     gradient = err;
     gradient *= learning_rate;
-    MNC::Matrix delta = gradient * in.transpose();
-    MNC::Matrix ret = weights->transpose() * err;
+    for(uint16_t f = 0; f < filter_count; f++){
+        for(uint16_t z = 0; z < i_Z; z++){
+           MNC::Matrix inSub = in.getSubMatrix(i_X, i_Y, z);
+           MNC::Matrix gradientSub = gradient.getSubMatrix(outX, outY, f * i_Z + z);
+           float db = gradientSub.sum();
+           bias->set(f, 0, bias->at(f, 0) - db);
+           MNC::Matrix dw = inSub.convolve(gradientSub, padding);
+           weights->getSubMatrix(filter_size, filter_size, f) -= dw;
+           int dx_padding = (i_X - outX + filter_size - 1) / 2;
+           MNC::Matrix dx = gradientSub.convolve(weights->getSubMatrix(filter_size, filter_size, f), dx_padding);
+           ret.getSubMatrix(i_X, i_Y, z) += dx;
+        }
+    }
     ret.hadamard(inDer);
-    *weights -= delta;
-    *bias -= gradient;
-    */
-    return gradient;
+    return ret;
 }

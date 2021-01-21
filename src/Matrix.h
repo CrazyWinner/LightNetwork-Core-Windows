@@ -38,6 +38,7 @@ namespace MNC
     static Matrix fromArray(uint16_t r, uint16_t c, float *arr);
     void set(const uint16_t &r, const uint16_t &c, float a);
     Matrix convolve(const Matrix &m, uint16_t padding);
+    float sum() const;
   };
 
 } // namespace MNC
