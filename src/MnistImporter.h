@@ -5,10 +5,10 @@
 class MnistImporter
 {
 private:
-    int resDivider = 2;
+    uint16_t resDivider = 2;
     std::ifstream *imFile;
     std::ifstream *laFile;
-    uint16_t rows, cols;
+    uint32_t rows, cols;
 
 public:
     MnistImporter(const char *imagesFile, const char *labelsFile);

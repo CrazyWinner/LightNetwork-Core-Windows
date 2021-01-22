@@ -13,15 +13,15 @@ namespace MNC
 
   public:
     float *data;
-    uint16_t rows, columns;
-    Matrix(uint16_t r, uint16_t c);
-    Matrix(uint16_t r, uint16_t c, float *arr);
-    Matrix getSubMatrix(uint16_t r, uint16_t c, uint16_t id) const;
+    uint32_t rows, columns;
+    Matrix(uint32_t r, uint32_t c);
+    Matrix(uint32_t r, uint32_t c, float *arr);
+    Matrix getSubMatrix(uint32_t r, uint32_t c, uint32_t id) const;
     ~Matrix();
     void operator+=(const Matrix &m);
     void operator+=(const float& m);
     Matrix operator*(const Matrix &m);
-    float at(uint16_t i, uint16_t j) const;
+    float at(uint32_t i, uint32_t j) const;
     Matrix transpose() const;
     Matrix inverse() const;
     void doOperation(void (*op)(float &));
@@ -33,12 +33,12 @@ namespace MNC
     void fill(const float &a);
     void operator-=(const Matrix &m);
     void printDebug() const;
-    int getIndex(uint16_t r, uint16_t c) const;
+    int getIndex(uint32_t r, uint32_t c) const;
     void setTransposed(bool t);
     void setInversed(bool t);
-    static Matrix fromArray(uint16_t r, uint16_t c, float *arr);
-    void set(const uint16_t &r, const uint16_t &c, float a);
-    Matrix convolve(const Matrix &m, uint16_t padding);
+    static Matrix fromArray(uint32_t r, uint32_t c, float *arr);
+    void set(const uint32_t &r, const uint32_t &c, float a);
+    Matrix convolve(const Matrix &m, int16_t padding);
     float sum() const;
   };
 

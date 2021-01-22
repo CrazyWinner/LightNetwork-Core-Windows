@@ -1,10 +1,10 @@
 #include "FullyConnected.h"
-FullyConnected::FullyConnected(uint16_t p_c, Activation::ActivationType act, const float lr) : Layer(act, lr)
+FullyConnected::FullyConnected(uint32_t p_c, Activation::ActivationType act, const float lr) : Layer(act, lr)
 {
     this->p_count = p_c;
 }
 
-void FullyConnected::init(uint16_t inX, uint16_t inY, uint16_t inZ)
+void FullyConnected::init(uint32_t inX, uint32_t inY, uint32_t inZ)
 {
     std::cout << inX << ":" << inY << ":" << inZ << std::endl;
     this->i_size = inX * inY * inZ;
@@ -40,7 +40,7 @@ MNC::Matrix FullyConnected::back_propagation(const MNC::Matrix &in, const MNC::M
     return ret;
 }
 
-void FullyConnected::getOutDimensions(uint16_t &outX, uint16_t &outY, uint16_t &outZ)
+void FullyConnected::getOutDimensions(uint32_t &outX, uint32_t &outY, uint32_t &outZ)
 {
     outX = 1;
     outY = p_count;

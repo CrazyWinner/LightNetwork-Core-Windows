@@ -34,7 +34,7 @@ NeuralNetwork *Minerva::importFromFile(std::string fileName)
     loadFile.read((char *)&activation, 1);
     float lr;
     loadFile.read((char *)&lr, sizeof(float));
-    uint16_t rows, columns;
+    uint32_t rows, columns;
     loadFile.read((char *)&rows, 2);
     loadFile.read((char *)&columns, 2);
     //Layer* l = new FullyConnected(columns, rows, Activation::SIGMOID, lr);

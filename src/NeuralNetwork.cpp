@@ -1,7 +1,7 @@
 
 #include "NeuralNetwork.h"
 
-NeuralNetwork::NeuralNetwork(uint16_t i_X, uint16_t i_Y, uint16_t i_Z)
+NeuralNetwork::NeuralNetwork(uint32_t i_X, uint32_t i_Y, uint32_t i_Z)
 {
   inputX = i_X;
   inputY = i_Y;
@@ -26,7 +26,7 @@ void NeuralNetwork::addLayer(Layer *l)
   }
   else
   {
-    uint16_t outX, outY, outZ;
+    uint32_t outX, outY, outZ;
     layers.at(layers.size() - 1)->getOutDimensions(outX, outY, outZ);
     l->init(outX, outY, outZ);
     layers.push_back(l);
@@ -48,7 +48,7 @@ void NeuralNetwork::train(MNC::Matrix &in, MNC::Matrix &desired_result)
 
   MNC::Matrix result = guess(in);
   MNC::Matrix err = result - desired_result;
-  for (int i = layers.size() - 1; i > 0; i--)
+  for (size_t i = layers.size() - 1; i > 0; i--)
   {
     err = layers.at(i)->back_propagation(*layers.at(i - 1)->out, *layers.at(i - 1)->outDer, err);
   }

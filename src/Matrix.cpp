@@ -2,13 +2,13 @@
 
 using namespace MNC;
 
-Matrix::Matrix(uint16_t r, uint16_t c)
+Matrix::Matrix(uint32_t r, uint32_t c)
 {
     this->rows = r;
     this->columns = c;
     data = new float[rows * columns]();
 }
-Matrix::Matrix(uint16_t r, uint16_t c, float *arr)
+Matrix::Matrix(uint32_t r, uint32_t c, float *arr)
 {
     data = arr;
     this->rows = r;
@@ -71,16 +71,16 @@ Matrix Matrix::inverse() const
     return ret;
 }
 
-Matrix Matrix::convolve(const Matrix &m, uint16_t padding)
+Matrix Matrix::convolve(const Matrix &m, int16_t padding)
 {
     Matrix r(rows - m.rows + 1 + (2 * padding), columns - m.columns + 1 + (2 * padding));
-    for (int32_t i = -padding; i < rows + padding - m.rows + 1; i++)
+    for (int64_t i = -padding; i < rows + padding - m.rows + 1; i++)
     {
-        for (int32_t j = -padding; j < columns + padding - m.columns + 1; j++)
+        for (int64_t j = -padding; j < columns + padding - m.columns + 1; j++)
         {
-            for (int32_t y = 0; y < m.rows; y++)
+            for (int64_t y = 0; y < m.rows; y++)
             {
-                for (int32_t x = 0; x < m.columns; x++)
+                for (int64_t x = 0; x < m.columns; x++)
                 {
                     if ((i + y < 0 || i + y >= rows || j + x < 0 || j + x >= columns))
                     {
@@ -124,7 +124,7 @@ Matrix Matrix::operator-(const Matrix &m)
     return r;
 }
 
-void Matrix::set(const uint16_t &r, const uint16_t &c, float a)
+void Matrix::set(const uint32_t &r, const uint32_t &c, float a)
 {
     data[getIndex(r, c)] = a;
 }
@@ -153,11 +153,11 @@ Matrix Matrix::operator*(const Matrix &m)
 
     Matrix r(this->rows, m.columns);
 
-    for (uint16_t i = 0; i < this->rows; i++)
+    for (uint32_t i = 0; i < this->rows; i++)
     {
-        for (uint16_t j = 0; j < m.columns; j++)
+        for (uint32_t j = 0; j < m.columns; j++)
         {
-            for (uint16_t k = 0; k < this->columns; k++)
+            for (uint32_t k = 0; k < this->columns; k++)
             {
                 r.data[r.getIndex(i, j)] += this->data[getIndex(i, k)] * m.data[m.getIndex(k, j)];
             }
@@ -189,7 +189,7 @@ void Matrix::randomize()
 TEST THIS!!!!
 
 */
-Matrix Matrix::getSubMatrix(uint16_t r, uint16_t c, uint16_t id) const
+Matrix Matrix::getSubMatrix(uint32_t r, uint32_t c, uint32_t id) const
 {
     Matrix ret(r, c, this->data + ((size_t)id * r * c));
     ret.setTransposed(this->isTransposed);
@@ -208,7 +208,7 @@ void Matrix::fill(const float &a)
 void Matrix::hadamard(const Matrix &m)
 {
     if (this->rows != m.rows || this->columns != m.columns)
-        throw std::runtime_error("hamard operation error!");
+        throw std::runtime_error("hadamard operation error!");
     for (uint32_t i = 0; i < this->rows * this->columns; i++)
     {
         this->data[i] = this->data[i] * m.data[i];
@@ -218,9 +218,9 @@ void Matrix::hadamard(const Matrix &m)
 void Matrix::printDebug() const
 {
 
-    for (uint16_t i = 0; i < this->rows; i++)
+    for (uint32_t i = 0; i < this->rows; i++)
     {
-        for (uint16_t j = 0; j < this->columns; j++)
+        for (uint32_t j = 0; j < this->columns; j++)
         {
             std::cout  << std::fixed << std::setprecision(3) << data[getIndex(i, j)] << " ";
         }
@@ -229,7 +229,7 @@ void Matrix::printDebug() const
     std::cout << std::endl;
 }
 
-Matrix Matrix::fromArray(uint16_t r, uint16_t c, float *arr)
+Matrix Matrix::fromArray(uint32_t r, uint32_t c, float *arr)
 {
     Matrix m(r, c);
     memcpy(m.data, arr, sizeof(float) * r * c);
@@ -240,18 +240,18 @@ void Matrix::operator-=(const Matrix &m)
 {
     if (this->rows != m.rows || this->columns != m.columns)
         throw std::runtime_error("-= operation error!");
-    for (int i = 0; i < this->rows * this->columns; i++)
+    for (uint32_t i = 0; i < this->rows * this->columns; i++)
     {
         this->data[i] = this->data[i] - m.data[i];
     }
 }
 
-float Matrix::at(uint16_t i, uint16_t j) const
+float Matrix::at(uint32_t i, uint32_t j) const
 {
     return data[getIndex(i, j)];
 }
 
-int Matrix::getIndex(uint16_t r, uint16_t c) const
+int Matrix::getIndex(uint32_t r, uint32_t c) const
 {
     if (isInversed)
     {

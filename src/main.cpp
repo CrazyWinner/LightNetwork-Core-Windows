@@ -12,7 +12,7 @@
 #include "Conv2D.h"
 #include "MaxPooling.h"
 NeuralNetwork nn(14,14,1); 
-uint16_t guesses, correctGuesses;
+uint32_t guesses, correctGuesses;
 bool isTraining = true;
 int trainIndex = 0;
 
@@ -79,7 +79,7 @@ int main()
 int getMaxVal(MNC::Matrix& x){
     float maxVal = x.at(0,0);
 	float maxId = 0;
-    for(int i = 0; i < x.rows; i++){
+    for(uint32_t i = 0; i < x.rows; i++){
 		if(x.at(i,0) > maxVal){
 			maxVal = x.at(i,0);
 			maxId = i;
