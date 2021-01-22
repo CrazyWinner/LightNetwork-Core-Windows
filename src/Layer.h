@@ -7,10 +7,10 @@ class Layer
 public:
     float learning_rate;
     Activation::ActivationType activationType;
-    MNC::Matrix *weights;
-    MNC::Matrix *bias;
-    MNC::Matrix *out;
-    MNC::Matrix *outDer;
+    MNC::Matrix *weights = nullptr;
+    MNC::Matrix *bias = nullptr;
+    MNC::Matrix *out = nullptr;
+    MNC::Matrix *outDer = nullptr;
     Layer(Activation::ActivationType act, const float lr)
     {
         activationType = act;
@@ -27,4 +27,5 @@ public:
     virtual MNC::Matrix back_propagation(const MNC::Matrix &in, const MNC::Matrix &inDer, const MNC::Matrix &err) = 0;
     virtual void init(uint16_t inX, uint16_t inY, uint16_t inZ) = 0;
     virtual void getOutDimensions(uint16_t &outX, uint16_t &outY, uint16_t &outZ) = 0;
+    
 };

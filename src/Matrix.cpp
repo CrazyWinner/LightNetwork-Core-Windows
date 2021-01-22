@@ -191,7 +191,7 @@ TEST THIS!!!!
 */
 Matrix Matrix::getSubMatrix(uint16_t r, uint16_t c, uint16_t id) const
 {
-    Matrix ret(r, c, this->data + (id * r * c));
+    Matrix ret(r, c, this->data + ((size_t)id * r * c));
     ret.setTransposed(this->isTransposed);
     ret.setInversed(this->isInversed);
     return ret;
@@ -222,7 +222,7 @@ void Matrix::printDebug() const
     {
         for (uint16_t j = 0; j < this->columns; j++)
         {
-            std::cout << data[getIndex(i, j)] << " ";
+            std::cout  << std::fixed << std::setprecision(3) << data[getIndex(i, j)] << " ";
         }
         std::cout << std::endl;
     }

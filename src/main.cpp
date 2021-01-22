@@ -10,10 +10,12 @@
 #include "MnistImporter.h"
 #include "FullyConnected.h"
 #include "Conv2D.h"
+#include "MaxPooling.h"
 NeuralNetwork nn(14,14,1); 
 uint16_t guesses, correctGuesses;
 bool isTraining = true;
 int trainIndex = 0;
+
 /*
 This example will teach 14x14 mnist characters
 */
@@ -27,10 +29,12 @@ int main()
    */
 
 	srand((unsigned)time(NULL));
-	nn.addLayer(new Conv2D(5,5,1,Activation::RELU,0.01)); 
-	nn.addLayer(new Conv2D(3,10,1,Activation::RELU,0.01)); 
-	nn.addLayer(new FullyConnected(30, Activation::RELU, 0.01));
-    nn.addLayer(new FullyConnected(30, Activation::RELU, 0.01)); 
+	nn.addLayer(new Conv2D(3,5,1,Activation::LEAKY_RELU,0.01)); 
+	nn.addLayer(new MaxPooling(2)); 
+	nn.addLayer(new Conv2D(3,10,1,Activation::LEAKY_RELU,0.01)); 
+	nn.addLayer(new MaxPooling(2)); 
+	nn.addLayer(new FullyConnected(30, Activation::LEAKY_RELU, 0.01));
+    nn.addLayer(new FullyConnected(30, Activation::LEAKY_RELU, 0.01)); 
     nn.addLayer(new FullyConnected(10, Activation::SIGMOID, 0.01));
 
 

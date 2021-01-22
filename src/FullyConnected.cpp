@@ -6,6 +6,7 @@ FullyConnected::FullyConnected(uint16_t p_c, Activation::ActivationType act, con
 
 void FullyConnected::init(uint16_t inX, uint16_t inY, uint16_t inZ)
 {
+    std::cout << inX << ":" << inY << ":" << inZ << std::endl;
     this->i_size = inX * inY * inZ;
     weights = new MNC::Matrix(p_count, i_size);
     weights->randomize();
