@@ -6,10 +6,10 @@ MnistImporter::MnistImporter(const char *imagesFile, const char *labelsFile)
     imFile = new std::ifstream(imagesFile, std::ios_base::in | std::ios_base::binary);
     laFile = new std::ifstream(labelsFile, std::ios_base::in | std::ios_base::binary);
     uint32_t magicNumber, numOfImages;
-    readMsbFirst(*imFile, (char *)&magicNumber, 4);
-    readMsbFirst(*imFile, (char *)&numOfImages, 4);
-    readMsbFirst(*imFile, (char *)&rows, 4);
-    readMsbFirst(*imFile, (char *)&cols, 4);
+    readMsbFirst(imFile, &magicNumber, 4);
+    readMsbFirst(imFile, &numOfImages, 4);
+    readMsbFirst(imFile, &rows, 4);
+    readMsbFirst(imFile, &cols, 4);
 }
 
 MnistImporter::~MnistImporter()
@@ -22,7 +22,6 @@ MnistImporter::~MnistImporter()
 
 MNC::Matrix MnistImporter::getInAt(uint32_t id)
 {
-    //std::cout << "Loading image" << id << std::endl;
     MNC::Matrix a((rows / resDivider) * (cols / resDivider), 1);
     uint8_t read;
     for (uint32_t j = 0; j < rows / resDivider; j++)
@@ -50,7 +49,6 @@ MNC::Matrix MnistImporter::getInAt(uint32_t id)
 }
 MNC::Matrix MnistImporter::getOutAt(uint32_t id)
 {
-    //std::cout << "Loading label" << id << std::endl;
     laFile->seekg(8 + id);
     MNC::Matrix a(10, 1);
     unsigned char read;
@@ -64,10 +62,10 @@ MNC::Matrix MnistImporter::getOutAt(uint32_t id)
     return a;
 }
 
-void MnistImporter::readMsbFirst(std::ifstream &file, char *ptr, size_t size)
+void MnistImporter::readMsbFirst(std::ifstream* &file, void *ptr, size_t size)
 {
     for (size_t i = size; i > 0; i--)
     {
-        file.read(ptr + (i - 1), 1);
+        file->read((char*)ptr + (i - 1), 1);
     }
 }

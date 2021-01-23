@@ -4,7 +4,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-
+#include "FullyConnected.h"
+#include "Conv2D.h"
+#include "MaxPooling.h"
 class Minerva
 {
 private:

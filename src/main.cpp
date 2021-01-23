@@ -1,16 +1,10 @@
 #include <iostream>
-#include <vector>
-#include "math.h"
 #include <time.h>
-#include <chrono>
-#include "Minerva.h"
 #include <string>
+#include "Minerva.h"
 #include "HighResClock.h"
-#include <unistd.h>
 #include "MnistImporter.h"
-#include "FullyConnected.h"
-#include "Conv2D.h"
-#include "MaxPooling.h"
+#define LR 0.005
 NeuralNetwork nn(14,14,1); 
 uint32_t guesses, correctGuesses;
 bool isTraining = true;
@@ -29,20 +23,20 @@ int main()
    */
 
 	srand((unsigned)time(NULL));
-	nn.addLayer(new Conv2D(3,5,1,Activation::LEAKY_RELU,0.01)); 
+	nn.addLayer(new Conv2D(3,5,1,Activation::LEAKY_RELU,LR)); 
 	nn.addLayer(new MaxPooling(2)); 
-	nn.addLayer(new Conv2D(3,10,1,Activation::LEAKY_RELU,0.01)); 
+	nn.addLayer(new Conv2D(3,10,1,Activation::LEAKY_RELU,LR)); 
 	nn.addLayer(new MaxPooling(2)); 
-	nn.addLayer(new FullyConnected(30, Activation::LEAKY_RELU, 0.01));
-    nn.addLayer(new FullyConnected(30, Activation::LEAKY_RELU, 0.01)); 
-    nn.addLayer(new FullyConnected(10, Activation::SIGMOID, 0.01));
+	nn.addLayer(new FullyConnected(16, Activation::LEAKY_RELU, LR));
+    nn.addLayer(new FullyConnected(16, Activation::LEAKY_RELU, LR)); 
+    nn.addLayer(new FullyConnected(10, Activation::SIGMOID, LR));
 
 
 	
-	if (!isTraining && false)
+	if (!isTraining)
 		nn = *Minerva::importFromFile((std::string) "a");
 		
-	std::cout << "Size:" << nn.layers.size() << std::endl;
+	std::cout << "Layer count:" << nn.layers.size() << std::endl;
 	Timer t(true, Timer::MILLISECONDS);
 	while (true)
 	{
@@ -60,9 +54,9 @@ int main()
 			nn.train(in, out);
 		if (guesses == 1000)
 		{
-			std::cout << "Dogruluk orani %" << correctGuesses / 10 << std::endl;
+			std::cout << "Train accuracy %" << correctGuesses / 10 << std::endl;
 			guesses = 0;
-			if ((correctGuesses / 10) > 96 && isTraining && false)
+			if ((correctGuesses / 10) > 98 && isTraining)
 			{
 				std::cout << "Saved" << std::endl;
 				Minerva::exportToFile(&nn, (std::string) "a");

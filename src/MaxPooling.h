@@ -1,3 +1,4 @@
+#pragma once
 #include "Layer.h"
 class MaxPooling : public Layer
 {
@@ -13,4 +14,6 @@ public:
     void init(uint32_t inX, uint32_t inY, uint32_t inZ);
     void getOutDimensions(uint32_t &outX, uint32_t &outY, uint32_t &outZ);
     ~MaxPooling();
+    void save(std::ofstream* file);
+    void load(std::ifstream* file, uint32_t inX, uint32_t inY, uint32_t inZ);
 };

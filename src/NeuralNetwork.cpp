@@ -36,7 +36,7 @@ void NeuralNetwork::addLayer(Layer *l)
 MNC::Matrix NeuralNetwork::guess(MNC::Matrix &in)
 {
   MNC::Matrix r = layers.at(0)->feed_forward(in);
-  for (int i = 1; i < layers.size(); i++)
+  for (size_t i = 1; i < layers.size(); i++)
   {
     r = layers.at(i)->feed_forward(r);
   }

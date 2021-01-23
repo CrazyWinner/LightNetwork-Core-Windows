@@ -1,3 +1,4 @@
+#pragma once
 #include <windows.h>
 #include <chrono>
 #include <iostream>
@@ -15,7 +16,7 @@ struct HighResClock
 class Timer
 {
 public:
-    enum DURATION
+    enum DURATION : uint8_t
     {
         SECONDS = 0,
         MILLISECONDS,

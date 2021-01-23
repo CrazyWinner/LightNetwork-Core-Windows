@@ -146,10 +146,8 @@ void Matrix::operator=(const Matrix &m)
 Matrix Matrix::operator*(const Matrix &m)
 {
     if (this->columns != m.rows)
-    {
-        std::cout << "ERR: " << this->rows << ":" << this->columns << " * " << m.rows << ":" << m.columns << std::endl;
         throw std::runtime_error("* operation error!");
-    }
+    
 
     Matrix r(this->rows, m.columns);
 

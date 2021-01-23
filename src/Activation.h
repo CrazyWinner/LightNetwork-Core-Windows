@@ -4,7 +4,7 @@
 class Activation
 {
 public:
-    enum ActivationType
+    enum ActivationType :  uint8_t
     {
         RELU = 0,
         SIGMOID,

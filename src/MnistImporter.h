@@ -1,4 +1,4 @@
-
+#pragma once
 #include "Matrix.h"
 #include <iostream>
 #include <fstream>
@@ -14,6 +14,6 @@ public:
     MnistImporter(const char *imagesFile, const char *labelsFile);
     MNC::Matrix getInAt(uint32_t id);
     MNC::Matrix getOutAt(uint32_t id);
-    void readMsbFirst(std::ifstream &file, char *ptr, size_t size);
+    void readMsbFirst(std::ifstream* &file, void *ptr, size_t size);
     ~MnistImporter();
 };

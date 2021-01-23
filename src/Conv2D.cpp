@@ -73,3 +73,30 @@ MNC::Matrix Conv2D::back_propagation(const MNC::Matrix &in, const MNC::Matrix &i
     ret.hadamard(inDer);
     return ret;
 }
+
+void Conv2D::save(std::ofstream* file){
+    uint8_t type = CONVOLUTIONAL;
+    file->write((char*)&type, sizeof(type));
+    file->write((char*)&activationType,sizeof(activationType));
+    file->write((char*)&learning_rate, sizeof(learning_rate));
+    file->write((char*)&filter_size, sizeof(filter_size));
+    file->write((char*)&filter_count, sizeof(filter_count));
+    file->write((char*)&padding, sizeof(padding));
+    file->write((char*)weights->data, sizeof(float) * weights->columns * weights->rows);
+    file->write((char*)bias->data, sizeof(float) * bias->columns * bias->rows);
+}
+
+void Conv2D::load(std::ifstream* file, uint32_t inX, uint32_t inY, uint32_t inZ)
+{
+    i_X = inX;
+    i_Y = inY;
+    i_Z = inZ;
+    weights = new MNC::Matrix(filter_size * filter_size, filter_count);
+    file->read((char*)weights->data, sizeof(float) * weights->columns * weights->rows);
+    bias = new MNC::Matrix(filter_count, 1);
+    file->read((char*)bias->data, sizeof(float) * bias->columns * bias->rows);
+    uint32_t outX, outY, outZ;
+    getOutDimensions(outX, outY, outZ);
+    out = new MNC::Matrix(outX * outY * outZ, 1);
+    outDer = new MNC::Matrix(outX * outY * outZ, 1);
+}

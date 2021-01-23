@@ -1,3 +1,4 @@
+#pragma once
 #include "Layer.h"
 class FullyConnected : public Layer
 {
@@ -10,4 +11,6 @@ public:
     MNC::Matrix back_propagation(const MNC::Matrix &in, const MNC::Matrix &inDer, const MNC::Matrix &err);
     void init(uint32_t inX, uint32_t inY, uint32_t inZ);
     void getOutDimensions(uint32_t &outX, uint32_t &outY, uint32_t &outZ);
+    void save(std::ofstream* file);
+    void load(std::ifstream* file, uint32_t inX, uint32_t inY, uint32_t inZ);
 };
