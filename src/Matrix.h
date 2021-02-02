@@ -38,7 +38,7 @@ namespace MNC
     void setInversed(bool t);
     static Matrix fromArray(uint32_t r, uint32_t c, float *arr);
     void set(const uint32_t &r, const uint32_t &c, float a);
-    Matrix convolve(const Matrix &m, int16_t padding);
+    Matrix convolve(const Matrix &m, int16_t paddingX, int16_t paddingY);
     float sum() const;
   };
 

@@ -3,12 +3,13 @@
 class MaxPooling : public Layer
 {
 private:
-    uint32_t pooling_size;
+    uint32_t pooling_size_X;
+    uint32_t pooling_size_Y;
     uint32_t i_X, i_Y, i_Z;
     uint32_t* inCoordX;
     uint32_t* inCoordY;
 public:
-    MaxPooling(uint32_t size);
+    MaxPooling(uint32_t sizeX, uint32_t sizeY);
     MNC::Matrix feed_forward(MNC::Matrix &in);
     MNC::Matrix back_propagation(const MNC::Matrix &in, const MNC::Matrix &inDer, const MNC::Matrix &err);
     void init(uint32_t inX, uint32_t inY, uint32_t inZ);

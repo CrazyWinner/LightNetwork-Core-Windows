@@ -71,12 +71,12 @@ Matrix Matrix::inverse() const
     return ret;
 }
 
-Matrix Matrix::convolve(const Matrix &m, int16_t padding)
+Matrix Matrix::convolve(const Matrix &m, int16_t paddingX, int16_t paddingY)
 {
-    Matrix r(rows - m.rows + 1 + (2 * padding), columns - m.columns + 1 + (2 * padding));
-    for (int64_t i = -padding; i < rows + padding - m.rows + 1; i++)
+    Matrix r(rows - m.rows + 1 + (2 * paddingY), columns - m.columns + 1 + (2 * paddingX));
+    for (int64_t i = -paddingY; i < rows + paddingY - m.rows + 1; i++)
     {
-        for (int64_t j = -padding; j < columns + padding - m.columns + 1; j++)
+        for (int64_t j = -paddingX; j < columns + paddingX - m.columns + 1; j++)
         {
             for (int64_t y = 0; y < m.rows; y++)
             {
@@ -86,7 +86,7 @@ Matrix Matrix::convolve(const Matrix &m, int16_t padding)
                     {
                         continue;
                     }
-                    r.data[r.getIndex(i + padding, j + padding)] += m.data[m.getIndex(y, x)] * data[getIndex(i + y, j + x)];
+                    r.data[r.getIndex(i + paddingY, j + paddingX)] += m.data[m.getIndex(y, x)] * data[getIndex(i + y, j + x)];
                 }
             }
         }
