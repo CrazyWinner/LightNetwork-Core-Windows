@@ -28,6 +28,7 @@ void Minerva::importFromFile(NeuralNetwork& network, const std::string& fileName
   loadFile.read((char *)&inX, sizeof(inX));
   loadFile.read((char *)&inY, sizeof(inY));
   loadFile.read((char *)&inZ, sizeof(inZ));
+  network.init(inX, inY, inZ);
   uint8_t type;
   
   while (layerCount != 0)

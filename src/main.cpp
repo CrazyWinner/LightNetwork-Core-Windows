@@ -5,7 +5,7 @@
 #include "HighResClock.h"
 #include "MnistImporter.h"
 #define LR 0.01
-NeuralNetwork nn(14, 14, 1);
+NeuralNetwork nn;
 uint32_t guesses, correctGuesses;
 bool isTraining = true;
 int trainIndex = 0;
@@ -25,6 +25,7 @@ int main()
 	srand((unsigned)time(NULL));
 	if (isTraining)
 	{
+		nn.init(14,14,1);
 		nn.addLayer(new Conv2D(3, 3, 5, 1, 1, Activation::LEAKY_RELU, LR));
 		nn.addLayer(new MaxPooling(2,2));
 		nn.addLayer(new Conv2D(3, 5, 5, 1, 1, Activation::LEAKY_RELU, LR));

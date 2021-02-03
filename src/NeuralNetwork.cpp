@@ -1,7 +1,7 @@
 
 #include "NeuralNetwork.h"
 
-NeuralNetwork::NeuralNetwork(uint32_t i_X, uint32_t i_Y, uint32_t i_Z)
+void NeuralNetwork::init(uint32_t i_X, uint32_t i_Y, uint32_t i_Z)
 {
   inputX = i_X;
   inputY = i_Y;
