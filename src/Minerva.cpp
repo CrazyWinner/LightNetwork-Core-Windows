@@ -1,5 +1,5 @@
 #include "Minerva.h"
-void Minerva::exportToFile(NeuralNetwork& network, std::string fileName)
+void Minerva::exportToFile(NeuralNetwork& network, const std::string& fileName)
 {
   std::ofstream saveFile;
   saveFile.open(fileName + ".lnw", std::ios_base::out | std::ios_base::binary);
@@ -71,6 +71,11 @@ void Minerva::importFromFile(NeuralNetwork& network, const std::string& fileName
       l = new MaxPooling(poolingSize_X, poolingSize_Y);
     }
     break;
+    case Layer::FLATTEN:
+    {
+      l = new Flatten();
+    }
+    break;
     default:
       break;
     }
@@ -79,6 +84,7 @@ void Minerva::importFromFile(NeuralNetwork& network, const std::string& fileName
     network.layers.push_back(l);
     layerCount--;
   }
+ 
 }
 
 void Minerva::pushToFile(std::ofstream &file, void *p, size_t size)

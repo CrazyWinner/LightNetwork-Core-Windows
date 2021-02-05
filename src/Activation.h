@@ -1,5 +1,5 @@
 #pragma once
-#include "Matrix.h"
+#include "Matrix3D.h"
 
 class Activation
 {
@@ -10,7 +10,7 @@ public:
         SIGMOID,
         LEAKY_RELU
     };
-    static void activate(MNC::Matrix &m, ActivationType act)
+    static void activate(Matrix3D &m, ActivationType act)
     {
         switch (act)
         {
@@ -37,7 +37,7 @@ public:
         }
         }
     };
-    static void derivative(MNC::Matrix &m, int act)
+    static void derivative(Matrix3D &m, int act)
     {
         switch (act)
         {

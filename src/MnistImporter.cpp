@@ -20,9 +20,9 @@ MnistImporter::~MnistImporter()
     delete laFile;
 }
 
-MNC::Matrix MnistImporter::getInAt(uint32_t id)
+Matrix3D MnistImporter::getInAt(uint32_t id)
 {
-    MNC::Matrix a((rows / resDivider) * (cols / resDivider), 1);
+    Matrix3D a((cols / resDivider), (rows / resDivider), 1);
     uint8_t read;
     for (uint32_t j = 0; j < rows / resDivider; j++)
     {
@@ -41,22 +41,22 @@ MNC::Matrix MnistImporter::getInAt(uint32_t id)
                 }
             }
             b = b / 1024;
-            a.set(j * (cols / resDivider) + k, 0, b);
+            a.set(k, j, 0, b);
         }
     }
 
     return a;
 }
-MNC::Matrix MnistImporter::getOutAt(uint32_t id)
+Matrix3D MnistImporter::getOutAt(uint32_t id)
 {
     laFile->seekg(8 + id);
-    MNC::Matrix a(10, 1);
+    Matrix3D a(1, 10, 1);
     unsigned char read;
 
     laFile->read((char *)&read, 1);
     for (uint8_t j = 0; j < 10; j++)
     {
-        a.set(j, 0, j == read);
+        a.set(0, j, 0, j == read);
     }
 
     return a;

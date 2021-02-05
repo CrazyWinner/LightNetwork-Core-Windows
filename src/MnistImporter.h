@@ -1,5 +1,5 @@
 #pragma once
-#include "Matrix.h"
+#include "Matrix3D.h"
 #include <iostream>
 #include <fstream>
 class MnistImporter
@@ -12,8 +12,8 @@ private:
 
 public:
     MnistImporter(const char *imagesFile, const char *labelsFile);
-    MNC::Matrix getInAt(uint32_t id);
-    MNC::Matrix getOutAt(uint32_t id);
+    Matrix3D getInAt(uint32_t id);
+    Matrix3D getOutAt(uint32_t id);
     void readMsbFirst(std::ifstream* &file, void *ptr, size_t size);
     ~MnistImporter();
 };

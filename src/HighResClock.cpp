@@ -15,16 +15,16 @@ HighResClock::time_point HighResClock::now()
 
 Timer::Timer(bool en, DURATION printT)
 {
-    this->enabled = en;
-    this->start = HighResClock::now();
-    this->printType = printT;
+    enabled = en;
+    start = HighResClock::now();
+    printType = printT;
 }
 void Timer::printElapsed(const char *tag)
 {
     if (enabled)
     {
         auto end = HighResClock::now();
-        switch (this->printType)
+        switch (printType)
         {
         case SECONDS:
         {

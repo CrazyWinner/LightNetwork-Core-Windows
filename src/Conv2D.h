@@ -8,8 +8,8 @@ private:
 
 public:
     Conv2D(uint32_t fsx, uint32_t fsy, uint32_t f_c, uint32_t pd_x, uint32_t pd_y, Activation::ActivationType act, const float lr);
-    MNC::Matrix feed_forward(MNC::Matrix &in);
-    MNC::Matrix back_propagation(const MNC::Matrix &in, const MNC::Matrix &inDer, const MNC::Matrix &err);
+    Matrix3D feed_forward(Matrix3D &in);
+    Matrix3D back_propagation(const Matrix3D &in, const Matrix3D &err);
     void init(uint32_t inX, uint32_t inY, uint32_t inZ);
     void getOutDimensions(uint32_t &outX, uint32_t &outY, uint32_t &outZ);
     void save(std::ofstream* file);

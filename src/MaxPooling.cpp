@@ -11,9 +11,7 @@ void MaxPooling::init(uint32_t inX, uint32_t inY, uint32_t inZ)
     i_Z = inZ;
     uint32_t outX, outY, outZ;
     getOutDimensions(outX, outY, outZ);
-    out = new MNC::Matrix(outX * outY * outZ, 1);
-    outDer = new MNC::Matrix(outX * outY * outZ, 1);
-    outDer->fill(1);
+    out = new Matrix3D(outX, outY, outZ);
     inCoordX = new uint32_t[outX * outY * outZ]();
     inCoordY = new uint32_t[outX * outY * outZ]();
 }
@@ -33,23 +31,23 @@ MaxPooling::~MaxPooling(){
     delete[] inCoordY;
 }
 
-MNC::Matrix MaxPooling::feed_forward(MNC::Matrix &in)
+Matrix3D MaxPooling::feed_forward(Matrix3D &in)
 {
    uint32_t outX, outY, outZ;
    getOutDimensions(outX, outY, outZ);
-   MNC::Matrix ret(outX * outY * outZ, 1);
+   Matrix3D ret(outX, outY, outZ);
    for(uint32_t z = 0; z < i_Z; z++){
-       MNC::Matrix inSub = in.getSubMatrix(i_Y, i_X, z);
-       MNC::Matrix retSub = ret.getSubMatrix(outY, outX, z);
+       Matrix3D inSub = in.get2DMatrixAt(z);
+       Matrix3D retSub = ret.get2DMatrixAt(z);
        for(uint32_t i = 0; i < outY; i++){
            for(uint32_t j = 0; j < outX; j++){
-              float m = inSub.at(i*pooling_size_Y, j*pooling_size_X);
+              float m = inSub.at(j*pooling_size_X, i*pooling_size_Y, 0);
               inCoordY[(z*outX*outY) + (i*outX) + j] = i * pooling_size_Y;
               inCoordX[(z*outX*outY) + (i*outX) + j] = j * pooling_size_X; 
               for(uint32_t y = 0; y < pooling_size_Y; y++){
                 for(uint32_t x = 0; x < pooling_size_X; x++){
-                   if((i * pooling_size_Y + y) >= inSub.rows || (j * pooling_size_X + x) >= inSub.columns) continue;
-                   float a = inSub.at(i * pooling_size_Y + y, j * pooling_size_X + x);
+                   if((i * pooling_size_Y + y) >= inSub.sizeY || (j * pooling_size_X + x) >= inSub.sizeX) continue;
+                   float a = inSub.at(j * pooling_size_X + x, i * pooling_size_Y + y, 0);
                    if(a > m){
                      m = a;
                      inCoordY[(z*outX*outY) + (i*outX) + j] = i * pooling_size_Y + y;
@@ -57,7 +55,7 @@ MNC::Matrix MaxPooling::feed_forward(MNC::Matrix &in)
                    }
                  }
               }
-            retSub.set(i, j, m);   
+            retSub.set(j, i, 0, m);   
            }
        }
 
@@ -66,21 +64,20 @@ MNC::Matrix MaxPooling::feed_forward(MNC::Matrix &in)
    return ret;
 }
 
-MNC::Matrix MaxPooling::back_propagation(const MNC::Matrix &in, const MNC::Matrix &inDer, const MNC::Matrix &err)
+Matrix3D MaxPooling::back_propagation(const Matrix3D &in, const Matrix3D &err)
 {
    uint32_t outX, outY, outZ;
    getOutDimensions(outX, outY, outZ);
-   MNC::Matrix ret(i_X * i_Y * i_Z, 1);
+   Matrix3D ret(i_X, i_Y, i_Z);
    for(uint32_t z = 0; z < outZ; z++){
-     MNC::Matrix retSub = ret.getSubMatrix(i_Y, i_X, z);
-     MNC::Matrix errSub = err.getSubMatrix(outY, outX, z);
+     Matrix3D retSub = ret.get2DMatrixAt(z);
+     Matrix3D errSub = err.get2DMatrixAt(z);
      for(uint32_t i = 0; i < outY; i++){
        for(uint32_t j = 0; j < outX; j++){
-         retSub.set(inCoordY[(z*outX*outY) + (i*outX) + j], inCoordX[(z*outX*outY) + (i*outX) + j], errSub.at(i,j));
+         retSub.set(inCoordX[(z*outX*outY) + (i*outX) + j], inCoordY[(z*outX*outY) + (i*outX) + j], 0, errSub.at(j,i,0));
        }
      }
     }
-    ret.hadamard(inDer);
     return ret;
 }
 
@@ -98,9 +95,7 @@ void MaxPooling::load(std::ifstream* file, uint32_t inX, uint32_t inY, uint32_t 
     i_Z = inZ;
     uint32_t outX, outY, outZ;
     getOutDimensions(outX, outY, outZ);
-    out = new MNC::Matrix(outX * outY * outZ, 1);
-    outDer = new MNC::Matrix(outX * outY * outZ, 1);
-    outDer->fill(1);
+    out = new Matrix3D(outX, outY, outZ);
     inCoordX = new uint32_t[outX * outY * outZ]();
     inCoordY = new uint32_t[outX * outY * outZ]();
 }

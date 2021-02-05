@@ -33,9 +33,9 @@ void NeuralNetwork::addLayer(Layer *l)
   }
 }
 
-MNC::Matrix NeuralNetwork::guess(MNC::Matrix &in)
+Matrix3D NeuralNetwork::guess(Matrix3D &in)
 {
-  MNC::Matrix r = layers.at(0)->feed_forward(in);
+  Matrix3D r = layers.at(0)->feed_forward(in);
   for (size_t i = 1; i < layers.size(); i++)
   {
     r = layers.at(i)->feed_forward(r);
@@ -43,14 +43,17 @@ MNC::Matrix NeuralNetwork::guess(MNC::Matrix &in)
   return r;
 }
 
-void NeuralNetwork::train(MNC::Matrix &in, MNC::Matrix &desired_result)
+void NeuralNetwork::train(Matrix3D &in, Matrix3D &desired_result)
 {
 
-  MNC::Matrix result = guess(in);
-  MNC::Matrix err = result - desired_result;
+  Matrix3D result = guess(in);
+  Matrix3D err = result - desired_result;
   for (size_t i = layers.size() - 1; i > 0; i--)
   {
-    err = layers.at(i)->back_propagation(*layers.at(i - 1)->out, *layers.at(i - 1)->outDer, err);
+    err = layers.at(i)->back_propagation(*layers.at(i - 1)->out, err);
+    if(layers.at(i - 1)->outDer != nullptr){
+      err.hadamard(*layers.at(i - 1)->outDer);
+    }
   }
-  layers.at(0)->back_propagation(in, in, err);
+  layers.at(0)->back_propagation(in, err);
 }

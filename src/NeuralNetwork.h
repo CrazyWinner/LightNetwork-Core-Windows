@@ -12,6 +12,6 @@ public:
    void init(uint32_t i_X, uint32_t i_Y, uint32_t i_Z);
    ~NeuralNetwork();
    void addLayer(Layer *l);
-   MNC::Matrix guess(MNC::Matrix &in);
-   void train(MNC::Matrix &in, MNC::Matrix &desired_result);
+   Matrix3D guess(Matrix3D &in);
+   void train(Matrix3D &in, Matrix3D &desired_result);
 };
