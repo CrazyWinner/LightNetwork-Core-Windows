@@ -5,10 +5,10 @@
 #include "HighResClock.h"
 #include "Flatten.h"
 #include "MnistImporter.h"
-#define LR 0.002
+#define LR 0.01
 NeuralNetwork nn;
 uint32_t guesses, correctGuesses;
-bool isTraining = false;
+bool isTraining = true;
 int trainIndex = 0;
 int mostAccurate = 90;
 
@@ -39,18 +39,6 @@ int main()
 	else
 	{
 		Minerva::importFromFile(nn, "deneme");
-		float deneme[196];
-		for(int bb = 0; bb < 196; bb++){
-			deneme[bb] = (float)bb * 0.01; 
-		}
-		Matrix3D denemeMatrix = Matrix3D::fromArray(14,14,1,deneme);
-		Matrix3D sonuc = nn.guess(denemeMatrix);
-		denemeMatrix.printDebug(0);
-		sonuc.printDebug(0);
-		return 0;
-		//isTraining = true;
-		//return 0;
-		
 	}
 
 
