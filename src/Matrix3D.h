@@ -12,7 +12,7 @@
 
   public:
     void setDestroyAfter(bool b);
-    mutable float *data;
+    float *data;
     uint32_t sizeX, sizeY, sizeZ;
     Matrix3D(uint32_t sX, uint32_t sY, uint32_t sZ);
     Matrix3D(uint32_t sX, uint32_t sY, uint32_t sZ, float *arr);

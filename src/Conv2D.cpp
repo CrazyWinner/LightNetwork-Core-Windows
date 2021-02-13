@@ -52,7 +52,7 @@ Matrix3D Conv2D::feed_forward(Matrix3D &in)
     return r;
 }
 
-Matrix3D Conv2D::back_propagation(const Matrix3D &in, const Matrix3D &err)
+Matrix3D Conv2D::back_propagation(Matrix3D &in, Matrix3D &err)
 {
     Matrix3D ret(i_X, i_Y, i_Z);
     uint32_t outX, outY, outZ;

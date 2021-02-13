@@ -26,7 +26,7 @@ Matrix3D FullyConnected::feed_forward(Matrix3D &in)
     return r;
 }
 
-Matrix3D FullyConnected::back_propagation(const Matrix3D &in, const Matrix3D &err)
+Matrix3D FullyConnected::back_propagation(Matrix3D &in, Matrix3D &err)
 {
     Matrix3D gradient(err.sizeX, err.sizeY, 1);
     gradient = err;

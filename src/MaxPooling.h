@@ -11,7 +11,7 @@ private:
 public:
     MaxPooling(uint32_t sizeX, uint32_t sizeY);
     Matrix3D feed_forward(Matrix3D &in);
-    Matrix3D back_propagation(const Matrix3D &in, const Matrix3D &err);
+    Matrix3D back_propagation(Matrix3D &in, Matrix3D &err);
     void init(uint32_t inX, uint32_t inY, uint32_t inZ);
     void getOutDimensions(uint32_t &outX, uint32_t &outY, uint32_t &outZ);
     ~MaxPooling();

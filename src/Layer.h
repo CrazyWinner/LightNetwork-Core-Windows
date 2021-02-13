@@ -26,7 +26,7 @@ public:
         delete outDer;
     }
     virtual Matrix3D feed_forward(Matrix3D &in) = 0;
-    virtual Matrix3D back_propagation(const Matrix3D &in, const Matrix3D &err) = 0;
+    virtual Matrix3D back_propagation(Matrix3D &in, Matrix3D &err) = 0;
     virtual void init(uint32_t inX, uint32_t inY, uint32_t inZ) = 0;
     virtual void getOutDimensions(uint32_t &outX, uint32_t &outY, uint32_t &outZ) = 0;
     virtual void save(std::ofstream* file) = 0;

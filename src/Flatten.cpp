@@ -14,16 +14,16 @@ void Flatten::init(uint32_t inX, uint32_t inY, uint32_t inZ)
 
 Matrix3D Flatten::feed_forward(Matrix3D &in)
 {
-    Matrix3D r = Matrix3D::fromArray(1, iX * iY * iZ, 1, in.data);
-    //in.data = nullptr;
+    Matrix3D r(1, iX * iY * iZ, 1, in.data);
+    in.setDestroyAfter(false);
     *out = r;
     return r;
 }
 
-Matrix3D Flatten::back_propagation(const Matrix3D &in, const Matrix3D &err)
+Matrix3D Flatten::back_propagation(Matrix3D &in, Matrix3D &err)
 {
-    Matrix3D ret = Matrix3D::fromArray(iX, iY, iZ, err.data);
-    //err.data = nullptr;
+    Matrix3D ret(iX, iY, iZ, err.data);
+    err.setDestroyAfter(false);
     return ret;
 }
 

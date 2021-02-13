@@ -64,7 +64,7 @@ Matrix3D MaxPooling::feed_forward(Matrix3D &in)
    return ret;
 }
 
-Matrix3D MaxPooling::back_propagation(const Matrix3D &in, const Matrix3D &err)
+Matrix3D MaxPooling::back_propagation(Matrix3D &in, Matrix3D &err)
 {
    uint32_t outX, outY, outZ;
    getOutDimensions(outX, outY, outZ);
