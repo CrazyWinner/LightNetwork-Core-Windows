@@ -10,24 +10,35 @@
             },
             "windows": {
                 "command": "powershell",
+
                 "args": [
                     "-c",
                     "mingw32-make"
-                ]
+                    
+                ],
+                "options": {
+                    "cwd": "${workspaceFolder}/build"
+                  }
             },
             "linux": {
                 "command": "bash",
                 "args": [
                     "-c",
                     "make"
-                ]
+                ],
+                "options": {
+                    "cwd": "${workspaceFolder}/build"
+                  }
             },
             "osx": {
                 "command": "bash",
                 "args": [
                     "-c",
                     "make"
-                ]
+                ],
+                "options": {
+                    "cwd": "${workspaceFolder}/build"
+                  }
             },
             "problemMatcher": []
         },
@@ -39,21 +50,30 @@
                 "args": [
                     "-c",
                     "'mingw32-make run'"
-                ]
+                ],
+                "options": {
+                    "cwd": "${workspaceFolder}/build"
+                  }
             },
             "linux": {
                 "command": "bash",
                 "args": [
                     "-c",
                     "'make run'"
-                ]
+                ],
+                "options": {
+                    "cwd": "${workspaceFolder}/build"
+                  }
             },
             "osx": {
                 "command": "bash",
                 "args": [
                     "-c",
                     "'make run'"
-                ]
+                ],
+                "options": {
+                    "cwd": "${workspaceFolder}/build"
+                  }
             },
             "problemMatcher": []
         },
@@ -65,21 +85,30 @@
                 "args": [
                     "-c",
                     "'mingw32-make clean'"
-                ]
+                ],
+                "options": {
+                    "cwd": "${workspaceFolder}/build"
+                  }
             },
             "linux": {
                 "command": "bash",
                 "args": [
                     "-c",
                     "'make clean'"
-                ]
+                ],
+                "options": {
+                    "cwd": "${workspaceFolder}/build"
+                  }
             },
             "osx": {
                 "command": "bash",
                 "args": [
                     "-c",
                     "'make clean'"
-                ]
+                ],
+                "options": {
+                    "cwd": "${workspaceFolder}/build"
+                  }
             }
         }
     ]

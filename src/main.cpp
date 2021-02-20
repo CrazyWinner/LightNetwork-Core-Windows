@@ -1,10 +1,10 @@
 #include <iostream>
 #include <time.h>
 #include <string>
-#include "Minerva.h"
-#include "HighResClock.h"
-#include "Flatten.h"
-#include "MnistImporter.h"
+#include "utils/Minerva.h"
+#include "utils/HighResClock.h"
+#include "layers/Flatten.h"
+#include "mnist/MnistImporter.h"
 #define LR 0.01
 NeuralNetwork nn;
 uint32_t guesses, correctGuesses;
@@ -26,6 +26,7 @@ int main()
 	srand((unsigned)time(NULL));
 	if (isTraining)
 	{
+		std::cout << "creating" << std::endl;
 		nn.init(14,14,1);
 	//	nn.addLayer(new Conv2D(3, 3, 2, 1, 1, Activation::RELU, LR));
 	//	nn.addLayer(new MaxPooling(2,2));
@@ -38,10 +39,9 @@ int main()
 	}
 	else
 	{
+		std::cout << "importing" << std::endl;
 		Minerva::importFromFile(nn, "deneme");
 	}
-
-
 	std::cout << "Layer count:" << nn.layers.size() << std::endl;
 	Timer t(true, Timer::MILLISECONDS);
 	while (true)
@@ -73,7 +73,7 @@ int main()
 			t.printElapsed("train");
 		}
 	}
-
+    
 	return 0;
 }
 

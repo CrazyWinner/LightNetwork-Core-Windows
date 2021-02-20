@@ -1,5 +1,5 @@
 #pragma once
-#include "Matrix3D.h"
+#include "../utils/Matrix3D.h"
 #include <iostream>
 #include <fstream>
 class MnistImporter

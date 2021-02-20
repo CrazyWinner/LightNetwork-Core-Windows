@@ -1,5 +1,4 @@
 #pragma once
-#include "Matrix3D.h"
 #include "Activation.h"
 #include <fstream>
 class Layer

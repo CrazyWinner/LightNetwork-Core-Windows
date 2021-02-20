@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
-#include "Activation.h"
-#include "Layer.h"
+#include "../layers/Activation.h"
+#include "../layers/Layer.h"
 
 class NeuralNetwork
 {

@@ -1,13 +1,13 @@
-#include "Activation.h"
 #include "NeuralNetwork.h"
 #include "Matrix3D.h"
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "FullyConnected.h"
-#include "Conv2D.h"
-#include "MaxPooling.h"
-#include "Flatten.h"
+#include "../layers/Activation.h"
+#include "../layers/FullyConnected.h"
+#include "../layers/Conv2D.h"
+#include "../layers/MaxPooling.h"
+#include "../layers/Flatten.h"
 class Minerva
 {
 private:
