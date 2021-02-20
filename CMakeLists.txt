@@ -1,10 +1,6 @@
 cmake_minimum_required(VERSION 2.8.9)
 project (Minerva)
 
-file(GLOB SOURCES "src/labels/*.cpp")
-file(GLOB SOURCES "src/utils/*.cpp")
-file(GLOB SOURCES "src/mnist/*.cpp")
-
 add_executable(main src/main.cpp
 src/layers/Conv2D.cpp
 src/layers/Flatten.cpp
